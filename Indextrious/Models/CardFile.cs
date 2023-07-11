@@ -1,6 +1,6 @@
 ﻿namespace Indextrious.Models
 {
-    public abstract class CardFile
+    public class CardFile
     {
         /// <summary>
         /// Unique integer identifier for each file

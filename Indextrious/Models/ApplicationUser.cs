@@ -7,6 +7,6 @@ namespace Indextrious.Models
         /// <summary>
         /// Navigation property to the CardCollections owned by this user
         /// </summary>
-        public List<CardCollection> RootCardFiles { get; set; } = new List<CardCollection>();
+        public List<CardCollection> UserCollections { get; set; } = new List<CardCollection>();
     }
 }
