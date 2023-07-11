@@ -3,7 +3,7 @@
     public interface ICard
     {
         /// <summary>
-        /// Unique Integer identifier for card using the ICard interface
+        /// Unique Integer identifier for ICard
         /// </summary>
         int Id { get; set; }
     }

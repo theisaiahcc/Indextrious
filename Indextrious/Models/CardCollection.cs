@@ -13,6 +13,7 @@
         /// Reference to Owner of CardCollection
         /// </summary>
         public ApplicationUser Owner { get; set; }
+        public string OwnerId { get; set; }
         /// <summary>
         /// CardFiles in Collection
         /// </summary>
