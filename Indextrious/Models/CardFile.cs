@@ -1,6 +1,6 @@
 ﻿namespace Indextrious.Models
 {
-    public class CardFile
+    public abstract class CardFile
     {
         /// <summary>
         /// Unique integer identifier for each file
@@ -13,10 +13,10 @@
         /// <summary>
         /// List of files in current file
         /// </summary>
-        List<CardFile> Files { get; set; }
+        public List<CardFile> SubFiles { get; set; } = new List<CardFile>();
         /// <summary>
         /// List of cards in current file
         /// </summary>
-        List<ICard> Cards { get; set; }
-    }
+        public List<ICard> Cards { get; set; } = new List<ICard>();
+    }   
 }
