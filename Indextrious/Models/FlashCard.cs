@@ -1,8 +1,9 @@
-﻿namespace Indextrious.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Indextrious.Models
 {
-    public class FlashCard : ICard
+    public class FlashCard : Card
     {
-        public int Id { get; set; }
         /// <summary>
         /// Stores a flash cards prompt string
         /// </summary>

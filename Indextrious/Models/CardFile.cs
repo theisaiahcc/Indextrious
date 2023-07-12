@@ -1,4 +1,6 @@
-﻿namespace Indextrious.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Indextrious.Models
 {
     public class CardFile
     {
@@ -17,6 +19,20 @@
         /// <summary>
         /// List of cards in current file
         /// </summary>
-        public List<ICard> Cards { get; set; } = new List<ICard>();
+        public List<Card> Cards { get; set; } = new List<Card>();
+
+        /// <summary>
+        /// Reference to parent CardFile
+        /// Null if no parent
+        /// </summary>
+        public CardFile? ParentCardFile { get; set; }
+        public int? ParentCardFileId { get; set; }
+
+        /// <summary>
+        /// Reference to parent CardCollection
+        /// </summary>
+        public CardCollection ParentCollection { get; set; }
+        [ForeignKey("ParentCollection")]
+        public int ParentCollectionId { get; set; }
     }   
 }

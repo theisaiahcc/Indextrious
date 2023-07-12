@@ -1,8 +1,9 @@
-﻿namespace Indextrious.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Indextrious.Models
 {
-    public class IndexCard : ICard
+    public class IndexCard : Card
     {
-        public int Id { get; set; }
         /// <summary>
         /// Stores an index cards title string
         /// </summary>
