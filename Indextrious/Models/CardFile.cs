@@ -19,8 +19,7 @@ namespace Indextrious.Models
         /// <summary>
         /// List of cards in current file
         /// </summary>
-        [NotMapped]
-        public List<ICard> Cards { get; set; } = new List<ICard>();
+        public List<Card> Cards { get; set; } = new List<Card>();
 
         /// <summary>
         /// Reference to parent CardFile
