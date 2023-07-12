@@ -200,6 +200,24 @@ namespace Indextrious.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Card",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CardFileId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Card_CardFiles_CardFileId",
+                        column: x => x.CardFileId,
+                        principalTable: "CardFiles",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -240,6 +258,11 @@ namespace Indextrious.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Card_CardFileId",
+                table: "Card",
+                column: "CardFileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CardCollections_OwnerId",
                 table: "CardCollections",
                 column: "OwnerId");
@@ -273,10 +296,13 @@ namespace Indextrious.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CardFiles");
+                name: "Card");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "CardFiles");
 
             migrationBuilder.DropTable(
                 name: "CardCollections");

@@ -87,6 +87,24 @@ namespace Indextrious.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Indextrious.Models.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CardFileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardFileId");
+
+                    b.ToTable("Card");
+                });
+
             modelBuilder.Entity("Indextrious.Models.CardCollection", b =>
                 {
                     b.Property<int>("Id")
@@ -270,6 +288,13 @@ namespace Indextrious.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Indextrious.Models.Card", b =>
+                {
+                    b.HasOne("Indextrious.Models.CardFile", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("CardFileId");
+                });
+
             modelBuilder.Entity("Indextrious.Models.CardCollection", b =>
                 {
                     b.HasOne("Indextrious.Models.ApplicationUser", "Owner")
@@ -362,6 +387,8 @@ namespace Indextrious.Migrations
 
             modelBuilder.Entity("Indextrious.Models.CardFile", b =>
                 {
+                    b.Navigation("Cards");
+
                     b.Navigation("SubFiles");
                 });
 #pragma warning restore 612, 618
