@@ -191,7 +191,7 @@ namespace Indextrious.Migrations
                         column: x => x.ParentCollectionId,
                         principalTable: "CardCollections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CardFiles_CardFiles_ParentCardFileId",
                         column: x => x.ParentCardFileId,
