@@ -14,5 +14,33 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.form-control {
+    background-color: grey;
+    color: white;
+    border-color: black;
+}
+input:hover {
+    cursor: pointer;
+}
+
+.form-control:focus {
+    background-color: inherit;
+    caret-color: white;
+    color: inherit;
+}
+
+/* Target autofilled inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    /* Override background color */
+    -webkit-box-shadow: 0 0 0 30px grey inset !important;
+    box-shadow: 0 0 0 30px grey inset !important;
+    /* Override text color */
+    -webkit-text-fill-color: inherit !important;
+    color: inherit !important;
 }
