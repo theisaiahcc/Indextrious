@@ -19,7 +19,7 @@ body {
 }
 
 .form-control {
-    background-color: grey;
+    background-color: rgb(26, 26, 26);
     color: white;
     border-color: black;
 }
@@ -38,9 +38,13 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
     /* Override background color */
-    -webkit-box-shadow: 0 0 0 30px grey inset !important;
-    box-shadow: 0 0 0 30px grey inset !important;
+    -webkit-box-shadow: 0 0 0 30px rgb(26, 26, 26) inset !important;
+    box-shadow: 0 0 0 30px rgb(26, 26, 26) inset !important;
     /* Override text color */
-    -webkit-text-fill-color: inherit !important;
-    color: inherit !important;
+    -webkit-text-fill-color: white !important;
+    color: white !important;
+}
+
+a {
+    color: deepskyblue ;
 }
