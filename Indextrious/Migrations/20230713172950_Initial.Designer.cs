@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indextrious.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230712202621_Initial")]
+    [Migration("20230713172950_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -318,7 +318,7 @@ namespace Indextrious.Migrations
                     b.HasOne("Indextrious.Models.CardCollection", "ParentCollection")
                         .WithMany("CardFiles")
                         .HasForeignKey("ParentCollectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParentCardFile");

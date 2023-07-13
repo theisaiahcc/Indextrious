@@ -23,7 +23,7 @@ namespace Indextrious.Data
                 .HasMany(cf => cf.SubFiles)
                 .WithOne(cf => cf.ParentCardFile)
                 .HasForeignKey(cf => cf.ParentCardFileId)
-                .OnDelete(DeleteBehavior.Restrict); // Adjust the delete behavior as needed
+                .OnDelete(DeleteBehavior.Restrict); // Deletion of CardFiles will have to be dealt with manually
 
             // Relationship between CardFile and CardCollection
             modelBuilder.Entity<CardFile>()
@@ -31,14 +31,15 @@ namespace Indextrious.Data
                 .WithMany(cc => cc.CardFiles)
                 .HasForeignKey(cf => cf.ParentCollectionId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Relationship between ApplicationUser and CardCollection
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.UserCollections)
                 .WithOne(cc => cc.Owner)
                 .HasForeignKey(cc => cc.OwnerId)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade); ;
         }
     }
 }

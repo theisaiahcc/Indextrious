@@ -316,7 +316,7 @@ namespace Indextrious.Migrations
                     b.HasOne("Indextrious.Models.CardCollection", "ParentCollection")
                         .WithMany("CardFiles")
                         .HasForeignKey("ParentCollectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParentCardFile");
