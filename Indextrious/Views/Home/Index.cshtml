@@ -20,39 +20,17 @@
                 <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="create-collection-form" action="@Url.Action("Create", "CardCollection")">
                     <div class="form-group">
                         <label for="collection-name" class="col-form-label">Name your collection:</label>
-                        <input type="text" class="form-control bg-dark text-light" id="collection-name">
+                        <input type="text" class="form-control bg-dark text-light" id="collection-name" name="name">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary text-light">Create</button>
+                <button type="submit" class="btn btn-primary text-light" form="create-collection-form">Create</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-<style>
-    .add-btn {
-        width: 200px;
-        height: 200px;
-        background-color: rgb(77, 77, 77);
-        color: black;
-        text-align: center;
-        font-size: 40px;
-        line-height: 190px;
-        border: 3px solid black;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .add-btn:hover {
-            background-color: #ddd; /* change background on hover */
-            transform: scale(1.1); /* increase the size on hover */
-        }
-</style>
