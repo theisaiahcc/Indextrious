@@ -10,6 +10,10 @@
         /// </summary>
         public int Id { get; set; }
         /// <summary>
+        /// Name of CardCollection
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// Reference to Owner of CardCollection
         /// </summary>
         public ApplicationUser Owner { get; set; }
