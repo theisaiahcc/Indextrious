@@ -14,5 +14,37 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.form-control {
+    background-color: rgb(26, 26, 26);
+    color: white;
+    border-color: black;
+}
+input:hover {
+    cursor: pointer;
+}
+
+.form-control:focus {
+    background-color: inherit;
+    caret-color: white;
+    color: inherit;
+}
+
+/* Target autofilled inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    /* Override background color */
+    -webkit-box-shadow: 0 0 0 30px rgb(26, 26, 26) inset !important;
+    box-shadow: 0 0 0 30px rgb(26, 26, 26) inset !important;
+    /* Override text color */
+    -webkit-text-fill-color: white !important;
+    color: white !important;
+}
+
+a {
+    color: deepskyblue ;
 }
