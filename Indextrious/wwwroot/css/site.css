@@ -48,3 +48,21 @@ input:-webkit-autofill:focus {
 a {
     color: deepskyblue ;
 }
+
+.add-btn {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(77, 77, 77);
+    color: black;
+    text-align: center;
+    font-size: 40px;
+    line-height: 190px;
+    border: 3px solid black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #ddd; /* change background on hover */
+    transform: scale(1.1); /* increase the size on hover */
+}

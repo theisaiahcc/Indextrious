@@ -6,3 +6,31 @@
     <h1 class="display-4">Collections</h1>
     <p>View your collections</p>
 </div>
+
+    <!-- Trigger/Open the Modal -->
+<div id="addCollection" class="add-btn" data-bs-toggle="modal" data-bs-target="#myModal">+</div>
+
+
+<!-- The Modal -->
+<div class="modal fade bg-dark text-light" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Create a new collection</h5>
+                <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="create-collection-form" action="@Url.Action("Create", "CardCollection")">
+                    <div class="form-group">
+                        <label for="collection-name" class="col-form-label">Name your collection:</label>
+                        <input type="text" class="form-control bg-dark text-light" id="collection-name" name="name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary text-light" form="create-collection-form">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
