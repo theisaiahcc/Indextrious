@@ -52,3 +52,19 @@ $(document).ready(function () {
     });
 });
 
+function refreshCollections() {
+    $.ajax({
+        type: "GET",
+        url: "/Home/GetCollectionsPartial",
+        success: function (data) {
+            $('#collection-track').html(data);
+            // Reset navigation attributes
+            $('#collection-track').attr('data-mouse-down-at', '0');
+            $('#collection-track').attr('data-prev-percentage', '0');
+        },
+        error: function () {
+            // show an error message
+            alert('An error occurred while refreshing the collections. Please try again.');
+        }
+    });
+}
