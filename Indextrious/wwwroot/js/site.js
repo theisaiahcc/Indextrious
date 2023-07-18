@@ -42,7 +42,7 @@ $(document).ready(function () {
             data: $(this).serialize(),  // get form data
             success: function (data) {
                 refreshCollections();
-                // close the modal
+                $('#collection-name').val('');
                 $('#myModal').modal('hide');
             },
             error: function () {
