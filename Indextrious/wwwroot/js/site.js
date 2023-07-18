@@ -1,6 +1,7 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 
 // Code from Hyperplexed YouTube channel
+// Navigates through collection-track
 const track = document.getElementById("collection-track");
 
 window.onmousedown = e => {
@@ -61,6 +62,7 @@ function refreshCollections() {
             // Reset navigation attributes
             $('#collection-track').attr('data-mouse-down-at', '0');
             $('#collection-track').attr('data-prev-percentage', '0');
+            $('#collection-track').prepend('<div id="addCollection" class="add-btn collection-card" data-bs-toggle="modal" data-bs-target="#myModal">+</div>');
         },
         error: function () {
             // show an error message
