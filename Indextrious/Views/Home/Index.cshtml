@@ -1,14 +1,25 @@
-﻿@{
+﻿@model List<Indextrious.Models.CardCollection>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center text-light">
+<div class="text-center text-light collection-heading">
     <h1 class="display-4">Collections</h1>
-    <p>View your collections</p>
+    <p>Drag left and right to view collections.</p>
 </div>
 
-    <!-- Trigger/Open the Modal -->
-<div id="addCollection" class="add-btn" data-bs-toggle="modal" data-bs-target="#myModal">+</div>
+<div id="collection-track" data-mouse-down-at="0" data-prev-percentage="0">
+    <div id="addCollection" class="add-btn collection-card" data-bs-toggle="modal" data-bs-target="#myModal">+</div> <!-- Open the create modal -->
+
+    @foreach(var collection in Model)
+    {
+        <div class="collection-card">@collection.Name</div>
+    }
+    
+</div>
+
+
 
 
 <!-- The Modal -->
