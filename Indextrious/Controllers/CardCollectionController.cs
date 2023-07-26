@@ -2,6 +2,7 @@
 using Indextrious.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Indextrious.Controllers
 {
@@ -43,6 +44,20 @@ namespace Indextrious.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        public async Task<IActionResult> CollectionIndex(int id)
+        {
+            var collection = await _context.CardCollections
+                .Where(cc => cc.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (collection == null)
+            {
+                return NotFound();
+            }
+
+            return View(collection);
         }
     }
 }
