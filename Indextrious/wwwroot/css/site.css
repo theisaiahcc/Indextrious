@@ -87,7 +87,103 @@ a {
     transition: all 0.3s ease;
 }
 
+.no-underline {
+    text-decoration: none;
+}
+
 .collection-card:hover {
     background-color: #ddd;
-    transform: scale(1.1);  
+    transform: scale(1.1);
+}
+
+/*CollectionIndex*/
+
+#file-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    height: calc(100% - 59px);
+    max-height: calc(100% - 59px);
+    color: black;
+    background: linear-gradient(-45deg, white, beige);
+    display: flex;
+    flex-wrap: wrap; /* Wrap the tabs to the next line */
+    overflow-y: auto;
+    align-content: flex-start;
+}
+
+    /* For WebKit browsers like Chrome, Safari */
+    #file-nav::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    display: none;
+
+    /* For Firefox */
+    scrollbar-width: none;
+    /* For Internet Explorer and Edge */
+    -ms-overflow-style: none;
+}
+
+/* Style the file tabs */
+.file-tab {
+    align-self: flex-start; /* This will prevent the tabs from stretching to the height of the container */
+    height: 40px;
+    padding: 8px 12px;
+    border-right: 2px solid #ccc;
+    border-left: 2px solid #ccc;
+    border-top: 2px solid #ccc;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding-bottom: 0;
+    position: relative;
+}
+
+    .file-tab:hover {
+        background-color: #e0e0e0;
+    }
+
+    .file-tab:active {
+        background-color: #d0d0d0;
+    }
+
+.tab-one {
+    margin-top: 10px;
+}
+
+.tab-two {
+    margin-top: 20px;
+}
+
+.tab-three {
+    margin-top: 40px;
+    margin-right: 0;
+}
+
+/*.file-tab:nth-child(3n - 1)::after {
+    content: "";
+    display: block;
+    height: 2px;*/ /* This creates the border */
+    /*background: #ccc;
+    width: 185px;*/ /* Adjust width as needed */
+    /*position: absolute;
+    left: -185px;*/ /* Adjust as needed for distance from the tab */
+    /*transform: translateY(-50%);*/ /* This ensures vertical centering */
+    /*margin-top: 6px;
+}*/
+
+.file-tab:nth-child(3n)::after,
+.file-tab:nth-child(3n - 1)::after {
+    content: "";
+    display: block;
+    height: 2px; /* This creates the border */
+    background: #ccc;
+    width: 185px; /* Adjust width as needed */
+    position: absolute;
+    left: -185px; /* Adjust as needed for distance from the tab */
+    transform: translateY(-50%); /* This ensures vertical centering */
+    margin-top: 7px;
 }
