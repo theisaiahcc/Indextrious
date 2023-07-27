@@ -2,6 +2,7 @@
 using Indextrious.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Indextrious.Controllers
 {
@@ -40,6 +41,41 @@ namespace Indextrious.Controllers
             };
 
             _context.Add(collection);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> CollectionIndex(int id)
+        {
+            var collection = await _context.CardCollections
+                .Include(cc => cc.CardFiles)
+                .Where(cc => cc.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (collection == null)
+            {
+                return NotFound();
+            }
+
+            return View(collection);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFile(string name, int parentCollectionId)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("File name cannot be empty.");
+            }
+
+            var file = new CardFile
+            {
+                Label = name,
+                ParentCollectionId = parentCollectionId
+            };
+
+            _context.Add(file);
             await _context.SaveChangesAsync();
 
             return Ok();
