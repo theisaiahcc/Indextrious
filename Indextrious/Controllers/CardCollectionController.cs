@@ -49,6 +49,7 @@ namespace Indextrious.Controllers
         public async Task<IActionResult> CollectionIndex(int id)
         {
             var collection = await _context.CardCollections
+                .Include(cc => cc.CardFiles)
                 .Where(cc => cc.Id == id)
                 .SingleOrDefaultAsync();
 
