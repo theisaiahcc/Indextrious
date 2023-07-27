@@ -59,5 +59,25 @@ namespace Indextrious.Controllers
 
             return View(collection);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFile(string name, int parentCollectionId)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("File name cannot be empty.");
+            }
+
+            var file = new CardFile
+            {
+                Label = name,
+                ParentCollectionId = parentCollectionId
+            };
+
+            _context.Add(file);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

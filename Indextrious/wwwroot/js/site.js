@@ -31,7 +31,7 @@ window.onmousemove = e => {
 }
 
 
-
+// Creates a new collection
 $(document).ready(function () {
     $('#create-collection-form').on('submit', function (e) {
         e.preventDefault();  // prevent the form from doing a full postback
@@ -53,6 +53,7 @@ $(document).ready(function () {
     });
 });
 
+// Refreshes the collections on the page
 function refreshCollections() {
     $.ajax({
         type: "GET",
