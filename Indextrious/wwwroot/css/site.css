@@ -140,6 +140,18 @@ a {
     transition: background-color 0.2s ease;
     padding-bottom: 0;
     position: relative;
+    width: 88px;
+    text-align: center;
+}
+
+.tab-text {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Ensure no line breaks inside the container */
+    margin: 0;
+    padding: 0;
 }
 
     .file-tab:hover {
@@ -152,6 +164,7 @@ a {
 
 .tab-one {
     margin-top: 10px;
+    margin-left: 2px;
 }
 
 .tab-two {
@@ -159,21 +172,9 @@ a {
 }
 
 .tab-three {
-    margin-top: 40px;
+    margin-top: 30px;
     margin-right: 0;
 }
-
-/*.file-tab:nth-child(3n - 1)::after {
-    content: "";
-    display: block;
-    height: 2px;*/ /* This creates the border */
-    /*background: #ccc;
-    width: 185px;*/ /* Adjust width as needed */
-    /*position: absolute;
-    left: -185px;*/ /* Adjust as needed for distance from the tab */
-    /*transform: translateY(-50%);*/ /* This ensures vertical centering */
-    /*margin-top: 6px;
-}*/
 
 .file-tab:nth-child(3n)::after,
 .file-tab:nth-child(3n - 1)::after {
@@ -181,9 +182,8 @@ a {
     display: block;
     height: 2px; /* This creates the border */
     background: #ccc;
-    width: 185px; /* Adjust width as needed */
+    width: 190px;
     position: absolute;
-    left: -185px; /* Adjust as needed for distance from the tab */
+    left: -190px; /* Adjust as needed for distance from the tab */
     transform: translateY(-50%); /* This ensures vertical centering */
-    margin-top: 7px;
 }
