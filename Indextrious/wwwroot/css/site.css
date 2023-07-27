@@ -189,5 +189,6 @@ a {
 }
 
 #add-file-btn {
-    margin-left: 165px;
+    position: absolute;
+    left: 300px;
 }
