@@ -187,3 +187,7 @@ a {
     left: -190px; /* Adjust as needed for distance from the tab */
     transform: translateY(-50%); /* This ensures vertical centering */
 }
+
+#add-file-btn {
+    margin-left: 165px;
+}
