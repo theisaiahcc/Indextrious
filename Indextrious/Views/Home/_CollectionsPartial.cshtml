@@ -2,5 +2,7 @@
 
 @foreach (var collection in Model)
 {
-    <div class="collection-card">@collection.Name</div>
+    <a href="@Url.Action("CollectionIndex", "CardCollection", new { id = collection.Id })" class="no-underline" draggable="false">
+        <div class="collection-card">@collection.Name</div>
+    </a>
 }
