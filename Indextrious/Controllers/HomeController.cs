@@ -13,7 +13,6 @@ namespace Indextrious.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<HomeController> _logger;
 
         public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
