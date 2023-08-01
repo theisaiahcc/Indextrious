@@ -78,7 +78,7 @@ namespace Indextrious.Controllers
             _context.Add(file);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return RedirectToAction("CollectionIndex", new { id = parentCollectionId });
         }
     }
 }
