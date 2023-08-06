@@ -162,6 +162,11 @@ a {
         background-color: #d0d0d0;
     }
 
+.active-file-tab {
+    background-color: #d0d0d0;
+}
+
+
 .tab-one {
     margin-top: 10px;
     margin-left: 2px;
@@ -191,4 +196,83 @@ a {
 #add-file-btn {
     position: absolute;
     left: 300px;
+}
+
+#create-card-btn {
+    position: absolute;
+    left: 400px;
+}
+
+#index-card {
+    width: 500px;
+    height: 300px;
+    background-color: #ffffff;
+    border-radius: 0px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    font-family: 'Arial', sans-serif;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 150px);
+}
+
+#card-title {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid red;
+    outline: none;
+    padding: 5px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#card-body {
+    flex: 1;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    padding-top: 3px;
+    outline: none;
+    resize: none;
+    font-size: 16px;
+    overflow-y: auto;
+    background-image: linear-gradient(0deg, transparent 90%, rgba(0, 0, 0, 0.1) 90%, rgba(0, 0, 0, 0.1) 100%);
+    line-height: 20px; /* This determines the height of each line including the bottom border */
+    background-size: 100% 20px; /* This should match the line-height */
+}
+
+    #card-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #card-body::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+
+    #card-body::-webkit-scrollbar-track {
+        background-color: #f3f3f3;
+        border-radius: 4px;
+    }
+
+    #card-title::placeholder, #card-body::placeholder {
+        color: #aaa;
+    }
+
+.close-button, .save-button {
+    position: absolute;
+    top: 10px; 
+    cursor: pointer;
+    width: 25px;
+}
+
+.close-button {
+    right: 20px;
+}
+
+.save-button {
+    right: 60px;
 }

@@ -6,6 +6,9 @@
 
 <button id="add-file-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Add File</button>
 
+<button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
+
+
 <div id="file-nav">
 
     @foreach (var file in Model.CardFiles)
@@ -29,6 +32,13 @@
         </div>
     }
 
+</div>
+
+<div id="index-card">
+    <input type="text" id="card-title" placeholder="Card Title">
+    <img src="/images/close.png" class="close-button" alt="close">
+    <img src="/images/save.png" class="save-button" alt="save">
+    <textarea id="card-body" placeholder="Card Body"></textarea>
 </div>
 
 
@@ -57,24 +67,83 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $("#create-file-form").submit(function (event) {
-            event.preventDefault(); // prevent form from submitting the traditional way
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#create-file-form").submit(function (event) {
+                event.preventDefault(); // prevent form from submitting the traditional way
 
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("CreateFile", "CardCollection")",
-                data: $(this).serialize(),
-                success: function () {
-                    // Refresh the current page
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error("An error occurred:", error);
-                    // Handle error - maybe display a message to the user
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CreateFile", "CardCollection")",
+                    data: $(this).serialize(),
+                    success: function () {
+                        // Refresh the current page
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.error("An error occurred:", error);
+                        // Handle error - maybe display a message to the user
+                    }
+                });
+            });
+
+            $(".file-tab").click(function () {
+                // Remove the active class from any other tabs
+                $(".file-tab").removeClass("active-file-tab");
+
+                // Add the active class to the clicked tab
+                $(this).addClass("active-file-tab");
+
+                // Fetch and display the index cards for the selected file
+                var fileId = $(this).data("file-id");
+                // loadIndexCards(fileId);
+            });
+
+            $("#create-card-btn").click(function () {
+                // Check if there's an active file tab
+                var activeTab = $(".file-tab.active-file-tab");
+                if (activeTab.length === 0) {
+                    alert("Please select a file first.");
+                    return;
                 }
             });
+
+            $(document).on('click', '.save-button', function () {
+                var cardTitle = $('#card-title').val();
+                var cardBody = $('#card-body').val();
+
+
+                // Retrieve the file ID from the active tab
+                var activeTab = $(".file-tab.active-file-tab");
+                if (activeTab.length === 0) {
+                    alert("Please select a file first.");
+                    return;
+                }
+                var fileId = activeTab.data("file-id");
+
+                // Now, you can call the function to save this card's data to the active file.
+                createCardInFile(cardTitle, cardBody, fileId);
+            });
         });
-    });
-</script>
+
+        function createCardInFile(cardTitle, cardBody, fileId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CreateCard", "CardCollection")",
+                data: {
+                    title: cardTitle,
+                    body: cardBody,
+                    fileId: fileId
+                },
+                success: function (data) {
+                    alert("SUCCESS");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error creating card:", xhr.responseText);
+                }
+            });
+        }
+
+    </script>
+}

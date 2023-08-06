@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indextrious.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230713174031_Initial")]
+    [Migration("20230802181915_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,14 +97,19 @@ namespace Indextrious.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CardFileId")
+                    b.Property<int>("CardFileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CardType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CardFileId");
 
-                    b.ToTable("Card");
+                    b.ToTable("Cards");
+
+                    b.HasDiscriminator<int>("CardType").HasValue(1);
                 });
 
             modelBuilder.Entity("Indextrious.Models.CardCollection", b =>
@@ -294,11 +299,30 @@ namespace Indextrious.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Indextrious.Models.IndexCard", b =>
+                {
+                    b.HasBaseType("Indextrious.Models.Card");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
+                });
+
             modelBuilder.Entity("Indextrious.Models.Card", b =>
                 {
-                    b.HasOne("Indextrious.Models.CardFile", null)
+                    b.HasOne("Indextrious.Models.CardFile", "CardFile")
                         .WithMany("Cards")
-                        .HasForeignKey("CardFileId");
+                        .HasForeignKey("CardFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardFile");
                 });
 
             modelBuilder.Entity("Indextrious.Models.CardCollection", b =>
