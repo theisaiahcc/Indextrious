@@ -13,6 +13,7 @@ namespace Indextrious.Data
 
         public DbSet<CardCollection> CardCollections { get; set; }
         public DbSet<CardFile> CardFiles { get; set; }
+        public DbSet<Card> Cards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,7 +40,19 @@ namespace Indextrious.Data
                 .WithOne(cc => cc.Owner)
                 .HasForeignKey(cc => cc.OwnerId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade); ;
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Explicitly mention TPH inheritance
+            modelBuilder.Entity<Card>()
+                .HasDiscriminator<int>("CardType")
+                .HasValue<Card>(1)
+                .HasValue<IndexCard>(2);
+
+            // Define relationship between Card and CardFile
+            modelBuilder.Entity<Card>()
+                .HasOne(c => c.CardFile)
+                .WithMany(cf => cf.Cards)
+                .HasForeignKey(c => c.CardFileId);
         }
     }
 }
