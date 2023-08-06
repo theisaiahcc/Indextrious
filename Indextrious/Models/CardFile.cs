@@ -22,13 +22,6 @@ namespace Indextrious.Models
         public List<Card> Cards { get; set; } = new List<Card>();
 
         /// <summary>
-        /// Reference to parent CardFile
-        /// Null if no parent
-        /// </summary>
-        public CardFile? ParentCardFile { get; set; }
-        public int? ParentCardFileId { get; set; }
-
-        /// <summary>
         /// Reference to parent CardCollection
         /// </summary>
         public CardCollection ParentCollection { get; set; }

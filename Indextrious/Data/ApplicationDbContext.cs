@@ -19,13 +19,6 @@ namespace Indextrious.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Self referencing relationship for CardFile
-            modelBuilder.Entity<CardFile>()
-                .HasMany(cf => cf.SubFiles)
-                .WithOne(cf => cf.ParentCardFile)
-                .HasForeignKey(cf => cf.ParentCardFileId)
-                .OnDelete(DeleteBehavior.Restrict); // Deletion of CardFiles will have to be dealt with manually
-
             // Relationship between CardFile and CardCollection
             modelBuilder.Entity<CardFile>()
                 .HasOne(cf => cf.ParentCollection)
