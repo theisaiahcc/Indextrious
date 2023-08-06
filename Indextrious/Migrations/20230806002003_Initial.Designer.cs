@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indextrious.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230802181915_Initial")]
+    [Migration("20230806002003_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,19 +143,19 @@ namespace Indextrious.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CardFileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ParentCardFileId")
-                        .HasColumnType("int");
 
                     b.Property<int>("ParentCollectionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCardFileId");
+                    b.HasIndex("CardFileId");
 
                     b.HasIndex("ParentCollectionId");
 
@@ -338,18 +338,15 @@ namespace Indextrious.Migrations
 
             modelBuilder.Entity("Indextrious.Models.CardFile", b =>
                 {
-                    b.HasOne("Indextrious.Models.CardFile", "ParentCardFile")
+                    b.HasOne("Indextrious.Models.CardFile", null)
                         .WithMany("SubFiles")
-                        .HasForeignKey("ParentCardFileId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CardFileId");
 
                     b.HasOne("Indextrious.Models.CardCollection", "ParentCollection")
                         .WithMany("CardFiles")
                         .HasForeignKey("ParentCollectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ParentCardFile");
 
                     b.Navigation("ParentCollection");
                 });

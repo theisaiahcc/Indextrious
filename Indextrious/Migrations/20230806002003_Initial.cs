@@ -181,8 +181,8 @@ namespace Indextrious.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentCardFileId = table.Column<int>(type: "int", nullable: true),
-                    ParentCollectionId = table.Column<int>(type: "int", nullable: false)
+                    ParentCollectionId = table.Column<int>(type: "int", nullable: false),
+                    CardFileId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,11 +194,10 @@ namespace Indextrious.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CardFiles_CardFiles_ParentCardFileId",
-                        column: x => x.ParentCardFileId,
+                        name: "FK_CardFiles_CardFiles_CardFileId",
+                        column: x => x.CardFileId,
                         principalTable: "CardFiles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -268,9 +267,9 @@ namespace Indextrious.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CardFiles_ParentCardFileId",
+                name: "IX_CardFiles_CardFileId",
                 table: "CardFiles",
-                column: "ParentCardFileId");
+                column: "CardFileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CardFiles_ParentCollectionId",
