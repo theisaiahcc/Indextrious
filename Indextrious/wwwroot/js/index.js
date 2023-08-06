@@ -57,7 +57,7 @@ function refreshCollections() {
         type: "GET",
         url: "/Home/GetCollectionsPartial",
         success: function (data) {
-            $('#collection-track').html(data);
+            $('#collection-track').html(data); // inserts partial view (data) into the collection track
             // Reset navigation attributes
             $('#collection-track').attr('data-mouse-down-at', '0');
             $('#collection-track').attr('data-prev-percentage', '0');
