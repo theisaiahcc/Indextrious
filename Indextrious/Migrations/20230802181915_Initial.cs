@@ -202,21 +202,25 @@ namespace Indextrious.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Card",
+                name: "Cards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CardFileId = table.Column<int>(type: "int", nullable: true)
+                    CardFileId = table.Column<int>(type: "int", nullable: false),
+                    CardType = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Card_CardFiles_CardFileId",
+                        name: "FK_Cards_CardFiles_CardFileId",
                         column: x => x.CardFileId,
                         principalTable: "CardFiles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -259,11 +263,6 @@ namespace Indextrious.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_CardFileId",
-                table: "Card",
-                column: "CardFileId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CardCollections_OwnerId",
                 table: "CardCollections",
                 column: "OwnerId");
@@ -277,6 +276,11 @@ namespace Indextrious.Migrations
                 name: "IX_CardFiles_ParentCollectionId",
                 table: "CardFiles",
                 column: "ParentCollectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cards_CardFileId",
+                table: "Cards",
+                column: "CardFileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -297,7 +301,7 @@ namespace Indextrious.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Card");
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
