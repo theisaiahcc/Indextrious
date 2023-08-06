@@ -80,5 +80,34 @@ namespace Indextrious.Controllers
 
             return RedirectToAction("CollectionIndex", new { id = parentCollectionId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCard(string title, string body, int fileId)
+        {
+            // Validation checks
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(body))
+            {
+                return BadRequest("Card title or body cannot be empty.");
+            }
+
+            var file = await _context.CardFiles.FindAsync(fileId);
+            if (file == null)
+            {
+                return NotFound("The associated file was not found.");
+            }
+
+            // Creating a new IndexCard
+            var card = new IndexCard
+            {
+                Title = title,
+                Body = body
+            };
+
+            file.Cards.Add(card);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();  // You can also return any other status or data that you find relevant
+        }
     }
 }
