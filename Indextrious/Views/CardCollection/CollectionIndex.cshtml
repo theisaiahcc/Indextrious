@@ -157,6 +157,7 @@
                     fileId: fileId
                 }, // pass card information to server
                 success: function (data) {
+                    loadCards(fileId)
                     alert("Card successfully created!");
                 },
                 error: function (xhr, status, error) {
