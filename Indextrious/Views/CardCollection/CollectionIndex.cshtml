@@ -34,12 +34,10 @@
 
 </div>
 
-<div id="index-card">
-    <input type="text" id="card-title" placeholder="Card Title">
-    <img src="/images/close.png" class="close-button" alt="close">
-    <img src="/images/save.png" class="save-button" alt="save">
-    <textarea id="card-body" placeholder="Card Body"></textarea>
+<div id="carousel-container">
+    
 </div>
+
 
 
 <!-- The Modal -->
@@ -67,7 +65,7 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
     <script>
         $(document).ready(function () {
             $("#create-file-form").submit(function (event) {
@@ -100,6 +98,12 @@
                 // loadIndexCards(fileId);
             });
 
+            $('.file-tab').click(function () {
+                const fileId = $(this).data('file-id'); //getFileId
+                // Load cards from active file
+                loadCards(fileId);
+            });
+
             $("#create-card-btn").click(function () {
                 // Check if there's an active file tab
                 var activeTab = $(".file-tab.active-file-tab");
@@ -107,11 +111,27 @@
                     alert("Please select a file first.");
                     return;
                 }
+
+                var blankCardHtml = `
+                            <div class="carousel-item">
+                                <div class="index-card">
+                                    <input type="text" class="card-title" placeholder="Card Title">
+                                    <img src="/images/close.png" class="close-button" alt="close">
+                                    <img src="/images/save.png" class="save-button" alt="save">
+                                    <textarea class="card-body" placeholder="Card Body"></textarea>
+                                </div>
+                            </div>`;
+
+                $('#carousel .carousel-inner').append(blankCardHtml);
+                $('#carousel .carousel-item.active').removeClass('active');
+                $('#carousel .carousel-item:last').addClass('active');
+
             });
 
             $(document).on('click', '.save-button', function () {
-                var cardTitle = $('#card-title').val();
-                var cardBody = $('#card-body').val();
+                var cardElement = $(this).closest('.index-card');
+                var cardTitle = cardElement.find('.card-title').val();
+                var cardBody = cardElement.find('.card-body').val();
 
 
                 // Retrieve the file ID from the active tab
@@ -135,12 +155,26 @@
                     title: cardTitle,
                     body: cardBody,
                     fileId: fileId
-                },
+                }, // pass card information to server
                 success: function (data) {
-                    alert("SUCCESS");
+                    alert("Card successfully created!");
                 },
                 error: function (xhr, status, error) {
                     console.error("Error creating card:", xhr.responseText);
+                }
+            });
+        }
+
+        function loadCards(fileId) {
+            $.ajax({
+                type: "GET",
+                url: "/CardCollection/GetFilePartial",
+                data: { fileId: fileId }, // pass fileId to server
+                success: function (data) {
+                    $('#carousel-container').html(data); // inserts card partial into carousel container
+                },
+                error: function () {
+                    alert('An error occurred while loading the cards. Please try again.');
                 }
             });
         }
