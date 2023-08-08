@@ -203,7 +203,26 @@ a {
     left: 400px;
 }
 
-#index-card {
+#carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust according to your needs */
+}
+
+#carousel {
+    width: 500px;
+}
+
+.carousel-control-prev {
+    left: -55px;
+}
+
+.carousel-control-next {
+    right: -55px;
+}
+
+.index-card {
     width: 500px;
     height: 300px;
     background-color: #ffffff;
@@ -214,12 +233,9 @@ a {
     padding: 20px;
     gap: 20px;
     font-family: 'Arial', sans-serif;
-    position: absolute;
-    left: calc(50% - 200px);
-    top: calc(50% - 150px);
 }
 
-#card-title {
+.card-title {
     width: 100%;
     border: none;
     border-bottom: 2px solid red;
@@ -229,7 +245,7 @@ a {
     font-weight: bold;
 }
 
-#card-body {
+.card-body {
     flex: 1;
     width: 100%;
     border: none;
@@ -240,8 +256,8 @@ a {
     font-size: 16px;
     overflow-y: auto;
     background-image: linear-gradient(0deg, transparent 90%, rgba(0, 0, 0, 0.1) 90%, rgba(0, 0, 0, 0.1) 100%);
-    line-height: 20px; /* This determines the height of each line including the bottom border */
-    background-size: 100% 20px; /* This should match the line-height */
+    line-height: 20px;
+    background-size: 100% 20px;
 }
 
     #card-body::-webkit-scrollbar {
