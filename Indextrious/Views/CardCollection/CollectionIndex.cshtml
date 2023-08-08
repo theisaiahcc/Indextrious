@@ -110,8 +110,16 @@
                     return;
                 }
 
+                // If blank card already exists, make it active item in the carousel
+                if ($('#carousel .blank-card').length > 0) {
+                    $('#carousel .carousel-item.active').removeClass('active');
+                    $('#carousel .carousel-item:last').addClass('active');
+                    return;
+                }
+
+                // If no blank card exists, append one to the end
                 var blankCardHtml = `
-                            <div class="carousel-item">
+                            <div class="carousel-item blank-card">
                                 <div class="index-card">
                                     <input type="text" class="card-title" placeholder="Card Title">
                                     <img src="/images/close.png" class="close-button" alt="close">
