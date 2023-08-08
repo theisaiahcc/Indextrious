@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Indextrious.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230806002003_Initial")]
+    [Migration("20230808042510_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,9 +143,6 @@ namespace Indextrious.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CardFileId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -154,8 +151,6 @@ namespace Indextrious.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CardFileId");
 
                     b.HasIndex("ParentCollectionId");
 
@@ -338,10 +333,6 @@ namespace Indextrious.Migrations
 
             modelBuilder.Entity("Indextrious.Models.CardFile", b =>
                 {
-                    b.HasOne("Indextrious.Models.CardFile", null)
-                        .WithMany("SubFiles")
-                        .HasForeignKey("CardFileId");
-
                     b.HasOne("Indextrious.Models.CardCollection", "ParentCollection")
                         .WithMany("CardFiles")
                         .HasForeignKey("ParentCollectionId")
@@ -415,8 +406,6 @@ namespace Indextrious.Migrations
             modelBuilder.Entity("Indextrious.Models.CardFile", b =>
                 {
                     b.Navigation("Cards");
-
-                    b.Navigation("SubFiles");
                 });
 #pragma warning restore 612, 618
         }
