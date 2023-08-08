@@ -109,5 +109,28 @@ namespace Indextrious.Controllers
 
             return Ok();  // You can also return any other status or data that you find relevant
         }
+
+        public async Task<IActionResult> GetCardsByFileId(int fileId)
+        {
+            var cards = await _context.Cards.Where(c => c.CardFileId == fileId).ToListAsync();
+
+            if (!cards.Any())
+            {
+                return NotFound("No cards found for the specified file.");
+            }
+
+            return Ok(cards);
+        }
+
+        public async Task<IActionResult> GetFilePartial(int fileId)
+        {
+            var cards = await _context.Cards
+               .Include(c => c.CardFile) // example, if CardFile is a navigation property
+               .Where(c => c.CardFileId == fileId)
+               .ToListAsync();
+
+
+            return PartialView("_FilePartial", cards);
+        }
     }
 }
