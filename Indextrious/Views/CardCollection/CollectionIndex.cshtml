@@ -39,6 +39,7 @@
 </div>
 
 <div id="card-nav">
+
 </div>
 
 
@@ -98,12 +99,6 @@
 
                 // Fetch and display the index cards for the selected file
                 var fileId = $(this).data("file-id");
-                // loadIndexCards(fileId);
-            });
-
-            $('.file-tab').click(function () {
-                const fileId = $(this).data('file-id'); //getFileId
-                // Load cards from active file
                 loadCards(fileId);
             });
 
@@ -148,6 +143,15 @@
                 // Call the function to save this card's data to the active file.
                 createCardInFile(cardTitle, cardBody, fileId);
             });
+
+            $(document).on('click', '.card-nav-item', function () {
+                var cardIndex = $(this).data('index');  // Retrieve the associated card carousel index
+
+                // Use Bootstrap's carousel method to navigate to the specific item
+                $('#carousel').carousel(parseInt(cardIndex));
+            });
+
+            initializeCarousel();
         });
 
         function createCardInFile(cardTitle, cardBody, fileId) {
@@ -161,7 +165,6 @@
                 }, // Pass card information to server
                 success: function (data) {
                     loadCards(fileId)
-                    alert("Card successfully created!");
                 },
                 error: function (xhr, status, error) {
                     console.error("Error creating card:", xhr.responseText);
@@ -176,14 +179,15 @@
                 data: { fileId: fileId }, // Pass fileId to server
                 success: function (data) {
                     $('#carousel-container').html(data); // Inserts card partial into carousel container
+                    initializeCarousel();
 
                     // Extract titles and populate the list
                     let titles = [];
                     $('#carousel-container .card-title').each(function () {
                         titles.push($(this).val());
                     });
-
                     populateTitleList(titles);
+                    setNavActiveCard();
                 },
                 error: function () {
                     alert('An error occurred while loading the cards. Please try again.');
@@ -192,23 +196,29 @@
         }
 
         function populateTitleList(titles) {
+            var index = 0;
             let $titleList = $('#card-nav');
             $titleList.empty(); // Clear any existing titles
 
             titles.forEach(title => {
-                $titleList.append(`<div class="card-nav-item">${title}</div>`);
+                $titleList.append(`<div class="card-nav-item" data-index="${index}">${title}</div>`);
+                index++;
             });
         }
 
-        $(document).on('click', '.card-nav-item', function () {
-            var cardIndex = $(this).data('index');  // Retrieve the associated card carousel index
+        function initializeCarousel() {
+            $('#carousel').on('slid.bs.carousel', function () {
+                console.log("Carousel slid event triggered");
+                setNavActiveCard()
+            });
+        }
 
-            // Use Bootstrap's carousel method to navigate to the specific item
-            $('#carousel').carousel(parseInt(cardIndex));
+        function setNavActiveCard() {
+            let currentIndex = $('#carousel .carousel-item.active').data('index');  // Get active carousel item's index
 
-            $('.card-nav-item.active').removeClass('active');  // Remove active class from previously active link
-            $(this).addClass('active');  // Add active class to the clicked link
-        });
-
+            $('.card-nav-item.active').removeClass('active');  // Remove active class from any navigation item
+            $(`.card-nav-item[data-index="${currentIndex}"]`).addClass('active');
+        }
+        
     </script>
 }
