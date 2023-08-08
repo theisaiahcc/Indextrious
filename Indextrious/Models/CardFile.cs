@@ -13,14 +13,9 @@ namespace Indextrious.Models
         /// </summary>
         public string Label { get; set; }
         /// <summary>
-        /// List of files in current file
-        /// </summary>
-        public List<CardFile> SubFiles { get; set; } = new List<CardFile>();
-        /// <summary>
         /// List of cards in current file
         /// </summary>
         public List<Card> Cards { get; set; } = new List<Card>();
-
         /// <summary>
         /// Reference to parent CardCollection
         /// </summary>
