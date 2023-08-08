@@ -1,7 +1,7 @@
 ﻿@model List<Indextrious.Models.Card>
 
 @{
-    bool isFirst = true;
+    int index = 0;
 }
 
 
@@ -22,7 +22,7 @@
         {
             @foreach (IndexCard card in Model)
             {
-                <div class="carousel-item @(isFirst ? "active" : "")">
+                <div class="carousel-item @(index == 0 ? "active" : "")" data-id="@card.Id" data-index="@index">
                     <div class="index-card">
                         <input type="text" class="card-title" placeholder="Card Title" value="@card.Title">
                         <img src="/images/close.png" class="close-button" alt="close">
@@ -30,7 +30,7 @@
                         <textarea class="card-body" placeholder="Card Body">@card.Body</textarea>
                     </div>
                 </div>
-                isFirst = false;
+                index++;
             }
         }
         

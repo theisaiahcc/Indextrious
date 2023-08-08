@@ -38,6 +38,10 @@
     
 </div>
 
+<div id="card-nav">
+
+</div>
+
 
 
 <!-- The Modal -->
@@ -69,7 +73,7 @@
     <script>
         $(document).ready(function () {
             $("#create-file-form").submit(function (event) {
-                event.preventDefault(); // prevent form from submitting the traditional way
+                event.preventDefault(); // Prevent form from submitting the traditional way
 
                 $.ajax({
                     type: "POST",
@@ -95,12 +99,6 @@
 
                 // Fetch and display the index cards for the selected file
                 var fileId = $(this).data("file-id");
-                // loadIndexCards(fileId);
-            });
-
-            $('.file-tab').click(function () {
-                const fileId = $(this).data('file-id'); //getFileId
-                // Load cards from active file
                 loadCards(fileId);
             });
 
@@ -142,9 +140,18 @@
                 }
                 var fileId = activeTab.data("file-id");
 
-                // Now, you can call the function to save this card's data to the active file.
+                // Call the function to save this card's data to the active file.
                 createCardInFile(cardTitle, cardBody, fileId);
             });
+
+            $(document).on('click', '.card-nav-item', function () {
+                var cardIndex = $(this).data('index');  // Retrieve the associated card carousel index
+
+                // Use Bootstrap's carousel method to navigate to the specific item
+                $('#carousel').carousel(parseInt(cardIndex));
+            });
+
+            initializeCarousel();
         });
 
         function createCardInFile(cardTitle, cardBody, fileId) {
@@ -155,9 +162,9 @@
                     title: cardTitle,
                     body: cardBody,
                     fileId: fileId
-                }, // pass card information to server
+                }, // Pass card information to server
                 success: function (data) {
-                    alert("Card successfully created!");
+                    loadCards(fileId)
                 },
                 error: function (xhr, status, error) {
                     console.error("Error creating card:", xhr.responseText);
@@ -169,9 +176,18 @@
             $.ajax({
                 type: "GET",
                 url: "/CardCollection/GetFilePartial",
-                data: { fileId: fileId }, // pass fileId to server
+                data: { fileId: fileId }, // Pass fileId to server
                 success: function (data) {
-                    $('#carousel-container').html(data); // inserts card partial into carousel container
+                    $('#carousel-container').html(data); // Inserts card partial into carousel container
+                    initializeCarousel();
+
+                    // Extract titles and populate the list
+                    let titles = [];
+                    $('#carousel-container .card-title').each(function () {
+                        titles.push($(this).val());
+                    });
+                    populateTitleList(titles);
+                    setNavActiveCard();
                 },
                 error: function () {
                     alert('An error occurred while loading the cards. Please try again.');
@@ -179,5 +195,30 @@
             });
         }
 
+        function populateTitleList(titles) {
+            var index = 0;
+            let $titleList = $('#card-nav');
+            $titleList.empty(); // Clear any existing titles
+
+            titles.forEach(title => {
+                $titleList.append(`<div class="card-nav-item" data-index="${index}">${title}</div>`);
+                index++;
+            });
+        }
+
+        function initializeCarousel() {
+            $('#carousel').on('slid.bs.carousel', function () {
+                console.log("Carousel slid event triggered");
+                setNavActiveCard()
+            });
+        }
+
+        function setNavActiveCard() {
+            let currentIndex = $('#carousel .carousel-item.active').data('index');  // Get active carousel item's index
+
+            $('.card-nav-item.active').removeClass('active');  // Remove active class from any navigation item
+            $(`.card-nav-item[data-index="${currentIndex}"]`).addClass('active');
+        }
+        
     </script>
 }
