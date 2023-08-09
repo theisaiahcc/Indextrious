@@ -279,7 +279,7 @@ a {
         color: #aaa;
     }
 
-.close-button, .save-button {
+.close-button, .save-button, .edit-button {
     position: absolute;
     top: 10px; 
     cursor: pointer;
@@ -323,3 +323,31 @@ a {
         background-color: grey; /* Light gray background */
         border-color: red;
     }
+
+
+#collection-title-container {
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 11%;
+    transform: translate(-50%, -50%); /* offsets half of its own width and height */
+    text-align: right;
+    display: flex;
+    align-items: center;
+}
+
+
+#collection-title {
+    margin-top: 5px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: white;
+    text-align: left;
+    display: inline-block; /* makes the input only take up as much space as its content */
+    width: auto; /* uses the content's width */
+    font-size: 22px;
+    font-weight: bold;
+    padding-left: 30px;
+}
