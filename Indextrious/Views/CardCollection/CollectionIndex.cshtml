@@ -9,9 +9,9 @@
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
 
 <div id="collection-title-container">
-    <img src="/images/edit.png" class="edit-button" alt="edit">
-    <input id="collection-title" value="@Model.Name" />
-    
+    <img id="collection-edit" src="/images/edit.png" class="edit-button invert-icon" alt="edit">
+    <img id="collection-save" src="/images/save.png" class="invert-icon" alt="save">
+    <input id="collection-title" value="@Model.Name" readonly />
 </div>
 
 
@@ -78,6 +78,10 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+
+            var originalTitle = $("#collection-title").val();
+            var enterPressed = false;
+
             $("#create-file-form").submit(function (event) {
                 event.preventDefault(); // Prevent form from submitting the traditional way
 
@@ -165,8 +169,76 @@
                 $('#carousel').carousel(parseInt(cardIndex));
             });
 
-            initializeCarousel();
+            $("#collection-edit").click(function () {
+                var titleInput = $("#collection-title");
+                titleInput.prop("readonly", false); // Remove readonly property
+                titleInput.focus(); // Focus the input
+
+                $(this).hide(); // Hide the edit icon
+                $("#collection-save").show();
+            });
+
+            $("#collection-title").on("keypress", function (e) {
+                if (e.which == 13) { // Check if the key is the Enter key
+                    e.preventDefault(); // Prevent default action
+                    enterPressed = true;
+                    originalTitle = $(this).val();
+                    performUpdate();
+                }
+            });
+
+            $(document).on('mousedown', '#collection-save', function () {
+                enterPressed = true;
+                originalTitle = $('#collection-title').val();
+                performUpdate();
+
+            });
+
+            $("#collection-title").blur(function () {
+                if (!enterPressed) {
+                    $(this).val(originalTitle);  // Reset to original value if Enter was not pressed
+                }
+                enterPressed = false;  // Reset for the next blur event
+            });
+
+            // Places the cursor at the end of the word on focus
+            $("#collection-title").on('focus', function () {
+                var value = $(this).val();
+                $(this).val('');
+                $(this).val(value);
+            });
+
+            initializeCarousel(); // Might not be necessary
         });
+
+        function performUpdate() {
+            updateCollectionName(@Model.Id);
+            $("#collection-save").hide();
+            $("#collection-edit").show();
+            $("#collection-title").prop("readonly", true);
+        }
+
+        function updateCollectionName(collectionId) {
+            // Get the updated collection name
+            var updatedName = $("#collection-title").val();
+
+            // Send AJAX request to update the field on your server
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateCollection", "CardCollection")",
+                data: {
+                    Id: collectionId,
+                    Name: updatedName
+                },
+                success: function (data) {
+                    // Success reflected in name change
+                },
+                error: function () {
+                    alert("An error occurred. Please try again later.");
+                }
+            });
+        }
+
 
         function createCardInFile(cardTitle, cardBody, fileId) {
             $.ajax({

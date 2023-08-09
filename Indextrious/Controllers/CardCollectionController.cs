@@ -46,6 +46,30 @@ namespace Indextrious.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateCollection(int id, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Collection Title cannot be empty");
+            }
+
+            var collection = await _context.CardCollections
+                .Where(cc => cc.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (collection == null)
+            {
+                return NotFound();
+            }
+
+            collection.Name = name;
+            _context.Update(collection);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Collection updated successfully", collection });
+        }
+
         public async Task<IActionResult> CollectionIndex(int id)
         {
             var collection = await _context.CardCollections

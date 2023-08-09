@@ -208,7 +208,7 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Adjust according to your needs */
+    height: 100vh;
 }
 
 #carousel {
@@ -279,7 +279,7 @@ a {
         color: #aaa;
     }
 
-.close-button, .save-button, .edit-button {
+.close-button, .save-button {
     position: absolute;
     top: 10px; 
     cursor: pointer;
@@ -320,7 +320,7 @@ a {
 }
 
     .card-nav-item.active {
-        background-color: grey; /* Light gray background */
+        background-color: grey;
         border-color: red;
     }
 
@@ -330,24 +330,47 @@ a {
     color: white;
     position: absolute;
     left: 50%;
-    top: 11%;
+    top: 30px;
     transform: translate(-50%, -50%); /* offsets half of its own width and height */
-    text-align: right;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-
 #collection-title {
-    margin-top: 5px;
+    margin-top: 0px;
     border: none;
     background-color: transparent;
     outline: none;
     color: white;
     text-align: left;
-    display: inline-block; /* makes the input only take up as much space as its content */
-    width: auto; /* uses the content's width */
+    display: inline-block;
     font-size: 22px;
     font-weight: bold;
-    padding-left: 30px;
+    padding-left: 10px;
+    cursor: default;
+    min-width: 0px;
+    white-space: nowrap;
+    max-width: 90%;
 }
+
+#collection-edit {
+    width: 25px;
+    cursor: pointer;
+}
+    #collection-edit:hover {
+        filter: invert(0);
+    }
+
+.invert-icon {
+    filter: invert(1); /* 1 means 100% inversion */
+}
+
+#collection-save {
+    display: none;
+    width: 28px;
+    cursor: pointer;
+}
+    #collection-save:hover {
+        filter: invert(0);
+    }
