@@ -1,6 +1,6 @@
 # Indextrious
 
-**Indextrious** is an intuitive web application designed to manage card collections seamlessly. Whether you're cataloging trading cards, business cards, or any form of collectibles, Indextrious provides the essential tools to keep your collection organized and accessible.
+**Indextrious** is an intuitive web application designed to manage card collections seamlessly. Indextrious provides the essential tools to keep your collection organized and accessible.
 
 ![screenshot](https://github.com/theisaiahcc/Indextrious/assets/95327043/ee9c6e49-70b0-4dc3-aa6f-6be39eed8610)
 
