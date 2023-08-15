@@ -4,9 +4,11 @@
     int count = 0;
 }
 
-<button id="add-file-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Add File</button>
+<button id="add-file-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add File</button>
 
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
+
+<button id="edit-file-btn" type="button" class="btn btn-primary">Edit File</button>
 
 <div id="collection-title-container">
     <img id="collection-edit" src="/images/edit.png" class="edit-button invert-icon" alt="edit">
@@ -50,8 +52,8 @@
 
 
 
-<!-- The Modal -->
-<div class="modal fade bg-dark text-light" id="myModal" tabindex="-1">
+<!-- Add Modal -->
+<div class="modal fade bg-dark text-light" id="addModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content bg-dark text-light">
             <div class="modal-header">
@@ -70,6 +72,31 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary text-light" form="create-file-form">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal-->
+<div class="modal fade bg-dark text-light" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit file</h5>
+                <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-file-form">
+                    <div class="form-group">
+                        <label for="edit-file-name" class="col-form-label">Update your file name:</label>
+                        <input type="text" class="form-control bg-dark text-light" id="edit-file-name" name="name">
+                    </div>
+                    <input type="hidden" name="fileId" value="" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary text-light" id="save-changes-btn">Save Changes</button>
             </div>
         </div>
     </div>
@@ -208,6 +235,55 @@
                 $(this).val(value);
             });
 
+            // Edit Modal trigger
+            $("#edit-file-btn").click(function () {
+                var activeTabId = getActiveTabId();
+
+                if (!activeTabId) {
+                    alert("Please select a file to edit.");
+                    return;
+                }
+
+                // Populate the edit input with the active tab's name
+                var activeTabName = $(".file-tab.active").text();
+                $("#edit-file-name").val(activeTabName);
+
+                // Show the edit modal
+                $("#editModal").modal('show');
+            });
+
+            $("#save-changes-btn").click(function () {
+                var activeTab = $(".file-tab.active-file-tab");
+                var activeTabId = getActiveTabId();
+
+                if (!activeTabId) {
+                    alert("Please select a file to edit.");
+                    $("#editModal").modal('hide');
+                    return;
+                }
+
+                var updatedFileName = $("#edit-file-name").val(); // Get the new name from the modal
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UpdateFile", "CardCollection")",
+                    data: {
+                        id: activeTabId,
+                        name: updatedFileName
+                    },
+                    success: function (response) {
+                        $("#editModal").modal('hide');
+                        activeTab.text(updatedFileName); // Updates the tab's name
+                        activeTab.css("overflow", "hidden");
+                        activeTab.css("text-overflow", "ellipsis");
+                    },
+                    error: function (error) {
+                        alert("There was an error updating the file.");
+                    }
+                });
+            });
+
+
             initializeCarousel(); // Might not be necessary
         });
 
@@ -305,6 +381,9 @@
             $('.card-nav-item.active').removeClass('active');  // Remove active class from any navigation item
             $(`.card-nav-item[data-index="${currentIndex}"]`).addClass('active');
         }
-        
+
+        function getActiveTabId() {
+            return $(".file-tab.active-file-tab").data("file-id");
+        }
     </script>
 }
