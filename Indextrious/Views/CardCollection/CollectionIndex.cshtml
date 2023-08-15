@@ -121,8 +121,8 @@
                         location.reload();
                     },
                     error: function (error) {
+                        alert("An error occurred.")
                         console.error("An error occurred:", error);
-                        // Handle error - maybe display a message to the user
                     }
                 });
             });
@@ -176,7 +176,6 @@
                 var cardTitle = cardElement.find('.card-title').val();
                 var cardBody = cardElement.find('.card-body').val();
 
-
                 // Retrieve the file ID from the active tab
                 var activeTab = $(".file-tab.active-file-tab");
                 if (activeTab.length === 0) {
@@ -185,8 +184,16 @@
                 }
                 var fileId = activeTab.data("file-id");
 
-                // Call the function to save this card's data to the active file.
-                createCardInFile(cardTitle, cardBody, fileId);
+                // Check if carousel-item div has a data-id attribute
+                var cardId = $(this).closest('.carousel-item').data('id');
+
+                if (cardId) {
+                    // Card has an ID, so update it
+                    updateCardInFile(cardId, cardTitle, cardBody, fileId);
+                } else {
+                    // Card does not have an ID, so create a new one
+                    createCardInFile(cardTitle, cardBody, fileId);
+                }
             });
 
             $(document).on('click', '.card-nav-item', function () {
@@ -218,7 +225,6 @@
                 enterPressed = true;
                 originalTitle = $('#collection-title').val();
                 performUpdate();
-
             });
 
             $("#collection-title").blur(function () {
@@ -252,6 +258,7 @@
                 $("#editModal").modal('show');
             });
 
+            // Save file name changes
             $("#save-changes-btn").click(function () {
                 var activeTab = $(".file-tab.active-file-tab");
                 var activeTabId = getActiveTabId();
@@ -283,6 +290,7 @@
                 });
             });
 
+            
 
             initializeCarousel(); // Might not be necessary
         });
@@ -368,10 +376,22 @@
             });
         }
 
-        function initializeCarousel() {
+        // Since the carousel is a partialView inserted later we need
+        // to initialize the event functions after the carousel starts existing
+        function initializeCarousel() { 
             $('#carousel').on('slid.bs.carousel', function () {
                 console.log("Carousel slid event triggered");
                 setNavActiveCard()
+            });
+
+            $(".card-edit").click(function () {
+                console.log("Card edit btn triggered");
+                editCard(this);
+            });
+
+            $(".card-close").click(function () {
+                console.log("Card close btn triggered");
+                cancelEditCard(this);
             });
         }
 
@@ -385,5 +405,52 @@
         function getActiveTabId() {
             return $(".file-tab.active-file-tab").data("file-id");
         }
+
+        // Change UI buttons to save and close/enable text inputs
+        function editCard(clickedElement) {
+            let card = $(clickedElement).closest('.index-card');
+
+            card.find(".card-edit").hide();
+            card.find(".card-save").removeAttr("hidden");
+            card.find(".card-close").removeAttr("hidden");
+            card.find(".card-save").show();
+            card.find(".card-close").show();
+            card.find(".card-title").prop("disabled", false);
+            card.find(".card-body").prop("disabled", false);
+            card.find(".card-title").css("cursor", "text");
+        }
+
+        // Change UI buttons back to edit/disable text inputs
+        function cancelEditCard(clickedElement) {
+            let card = $(clickedElement).closest('.index-card');
+
+            card.find(".card-edit").show();
+            card.find(".card-save").hide();
+            card.find(".card-close").hide();
+            card.find(".card-title").prop("disabled", true);
+            card.find(".card-body").prop("disabled", true);
+            card.find(".card-title").css("cursor", "default");
+        }
+
+        // Update card to reflect changes
+        function updateCardInFile(cardId, cardTitle, cardBody, fileId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateCard", "CardCollection")",
+                data: {
+                    id: cardId,
+                    title: cardTitle,
+                    body: cardBody,
+                    fileId: fileId
+                },
+                success: function (data) {
+                    loadCards(fileId) // Reload cards
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error updating card:", xhr.responseText);
+                }
+            });
+        }
+
     </script>
 }
