@@ -24,10 +24,11 @@
             {
                 <div class="carousel-item @(index == 0 ? "active" : "")" data-id="@card.Id" data-index="@index">
                     <div class="index-card">
-                        <input type="text" class="card-title" placeholder="Card Title" value="@card.Title">
-                        <img src="/images/close.png" class="close-button" alt="close">
-                        <img src="/images/save.png" class="save-button" alt="save">
-                        <textarea class="card-body" placeholder="Card Body">@card.Body</textarea>
+                        <input type="text" class="card-title" placeholder="Card Title" value="@card.Title" disabled>
+                        <img src="/images/close.png" class="close-button card-close" alt="close" hidden>
+                        <img src="/images/save.png" class="save-button card-save" alt="save" hidden>
+                        <img src="/images/edit.png" class="edit-button card-edit" alt="edit">
+                        <textarea class="card-body" placeholder="Card Body" disabled>@card.Body</textarea>
                     </div>
                 </div>
                 index++;
