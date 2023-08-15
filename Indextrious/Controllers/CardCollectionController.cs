@@ -106,6 +106,30 @@ namespace Indextrious.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> UpdateFile(int id, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("File Title cannot be empty");
+            }
+
+            var file = await _context.CardFiles
+                .Where(cf => cf.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            file.Label = name;
+            _context.Update(file);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "File updated successfully", file });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> CreateCard(string title, string body, int fileId)
         {
             // Validation checks
