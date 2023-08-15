@@ -158,6 +158,34 @@ namespace Indextrious.Controllers
             return Ok();  // You can also return any other status or data that you find relevant
         }
 
+        [HttpPost]
+        public async Task<IActionResult>UpdateCard(int id, string title, string body, int fileId)
+        {
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(body))
+            {
+                return BadRequest("Card title or body cannot be empty.");
+            }
+
+            var card = await _context.Cards
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (card == null)
+            {
+                return NotFound("The associated card was not found.");
+            }
+
+            if (card is IndexCard indexCard)
+            {
+                indexCard.Title = title;
+                indexCard.Body = body;
+                _context.Update(indexCard);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Card updated successfully" });
+        }
+
         public async Task<IActionResult> GetCardsByFileId(int fileId)
         {
             var cards = await _context.Cards.Where(c => c.CardFileId == fileId).ToListAsync();
