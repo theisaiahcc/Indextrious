@@ -201,7 +201,12 @@ a {
 
 #create-card-btn {
     position: absolute;
-    left: 400px;
+    left: 390px;
+}
+
+#edit-file-btn {
+    position: absolute;
+    left: 505px;
 }
 
 #carousel-container {
