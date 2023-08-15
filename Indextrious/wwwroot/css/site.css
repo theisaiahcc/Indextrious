@@ -249,6 +249,7 @@ a {
     padding: 5px 0;
     font-size: 18px;
     font-weight: bold;
+    cursor: text;
 }
 
 .card-body {
@@ -284,19 +285,25 @@ a {
         color: #aaa;
     }
 
-.close-button, .save-button {
+.close-button, .save-button, .card-edit {
     position: absolute;
-    top: 10px; 
+    top: 18px;
     cursor: pointer;
     width: 25px;
+    height: 25px;
 }
 
 .close-button {
-    right: 20px;
+    right: 30px;
 }
 
 .save-button {
-    right: 60px;
+    right: 70px;
+}
+
+.card-edit {
+    
+    right: 30px;
 }
 
 #card-nav {
@@ -359,7 +366,7 @@ a {
     max-width: 90%;
 }
 
-#collection-edit {
+.edit-button {
     width: 25px;
     cursor: pointer;
 }
@@ -379,3 +386,14 @@ a {
     #collection-save:hover {
         filter: invert(0);
     }
+
+input:disabled {
+    background-color: transparent; /* Sets the background to transparent */
+    color: black;
+    cursor: default;
+}
+
+textarea:disabled {
+    background-color: transparent;
+    color: black;
+}
