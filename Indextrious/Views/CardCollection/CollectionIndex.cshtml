@@ -168,7 +168,6 @@
                 $('#carousel .carousel-inner').append(blankCardHtml);
                 $('#carousel .carousel-item.active').removeClass('active');
                 $('#carousel .carousel-item:last').addClass('active');
-
             });
 
             $(document).on('click', '.save-button', function () {
@@ -290,11 +289,15 @@
                 });
             });
 
-            
+            $(document).on('click', '.delete-icon', function () {
+                var card = $('#carousel .carousel-item.active');
+                var cardId = card.data('id');    
+            });
 
             initializeCarousel(); // Might not be necessary
         });
 
+        // Update card
         function performUpdate() {
             updateCollectionName(@Model.Id);
             $("#collection-save").hide();
@@ -371,9 +374,14 @@
             $titleList.empty(); // Clear any existing titles
 
             titles.forEach(title => {
-                $titleList.append(`<div class="card-nav-item" data-index="${index}">${title}</div>`);
+                $titleList.append(`
+                <div class="card-nav-item" data-index="${index}">
+                    <div class="title-text">${title}</div>
+                    <img src="/images/delete.png" class="delete-icon" alt="Delete">
+                </div>`);
                 index++;
             });
+
         }
 
         // Since the carousel is a partialView inserted later we need
@@ -395,11 +403,18 @@
             });
         }
 
+        // Makes sure the card nav matches the carousels active item
         function setNavActiveCard() {
             let currentIndex = $('#carousel .carousel-item.active').data('index');  // Get active carousel item's index
 
-            $('.card-nav-item.active').removeClass('active');  // Remove active class from any navigation item
-            $(`.card-nav-item[data-index="${currentIndex}"]`).addClass('active');
+            var activeNavItems = $('.card-nav-item.active')
+            activeNavItems.find('.delete-icon').hide(); // Hide delete icon
+            activeNavItems.removeClass('active');  // Remove active class from any navigation item
+            
+            var matchingNavItem = $(`.card-nav-item[data-index="${currentIndex}"]`);
+            matchingNavItem.addClass('active');
+            var deleteIcon = $(matchingNavItem).find('.delete-icon');
+            deleteIcon.show();
         }
 
         function getActiveTabId() {
