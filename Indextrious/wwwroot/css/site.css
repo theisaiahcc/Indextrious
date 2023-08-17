@@ -293,6 +293,10 @@ a {
     height: 25px;
 }
 
+    .close-button:hover, .save-button:hover {
+        filter: invert(.5);
+    }
+
 .close-button {
     right: 30px;
 }
@@ -321,19 +325,54 @@ a {
     align-content: flex-start;
 }
 
+    /* Hide default scrollbar for IE */
+    #card-nav::-ms-scrollbar {
+        display: none;
+    }
+
+    /* Styling the scrollbar for Webkit browsers */
+    #card-nav::-webkit-scrollbar {
+        width: 8px; /* Adjust scrollbar width */
+    }
+
+    #card-nav::-webkit-scrollbar-thumb {
+        background-color: rgba(155, 155, 155, 0.7); /* Adjust thumb color */
+        border-radius: 4px; /* Make it round */
+    }
+
+    #card-nav::-webkit-scrollbar-track {
+        background: transparent; /* Track color */
+    }
+
 .card-nav-item {
     width: 100%;
-    display: block; 
+    display: block;
     border-bottom: 1px solid red;
-    padding: 1px; 
+    padding: 1px;
     cursor: pointer;
-    text-align: center;
-    font-weight: bold;
+    text-align: left;
+    position: relative;
 }
 
     .card-nav-item.active {
         background-color: grey;
         border-color: red;
+    }
+
+.title-text {
+    font-weight: bold;
+    text-align: left;
+    float: left;
+}
+
+.delete-icon {
+    position: absolute;
+    width: 24px;
+    right: 10px;
+    display: none;
+}
+    .delete-icon:hover {
+        filter: invert(1);
     }
 
 
@@ -370,6 +409,11 @@ a {
     width: 25px;
     cursor: pointer;
 }
+
+    .edit-button:hover {
+        filter: invert(.5);
+    }
+
     #collection-edit:hover {
         filter: invert(0);
     }
