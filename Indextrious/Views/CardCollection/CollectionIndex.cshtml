@@ -291,7 +291,8 @@
 
             $(document).on('click', '.delete-icon', function () {
                 var card = $('#carousel .carousel-item.active');
-                var cardId = card.data('id');    
+                var cardId = card.data('id');  
+                deleteCard(cardId, getActiveTabId());
             });
 
             initializeCarousel(); // Might not be necessary
@@ -463,6 +464,23 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("Error updating card:", xhr.responseText);
+                }
+            });
+        }
+
+        // Delete card function
+        function deleteCard(cardId, fileId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteCard", "CardCollection")",
+                data: {
+                    id: cardId
+                },
+                success: function (data) {
+                    loadCards(fileId); // reload list of cards after deletion
+                },
+                error: function () {
+                    alert("An error occurred. Please try again later.");
                 }
             });
         }
