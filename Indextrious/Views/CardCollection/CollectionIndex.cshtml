@@ -8,7 +8,11 @@
 
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
 
+<button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
+
 <button id="edit-file-btn" type="button" class="btn btn-primary">Edit File</button>
+
+<button id="remove-file-btn" type="button" class="btn btn-danger">Delete File</button>
 
 <div id="collection-title-container">
     <img id="collection-edit" src="/images/edit.png" class="edit-button invert-icon" alt="edit">
@@ -295,6 +299,16 @@
                 deleteCard(cardId, getActiveTabId());
             });
 
+            // Delete File click event
+            $("#remove-file-btn").click(function () {
+                if (getActiveTabId() > 0) {
+                    deleteFile(getActiveTabId());
+                }
+                else {
+                    alert("Please select a file.")
+                }
+            });
+
             initializeCarousel(); // Might not be necessary
         });
 
@@ -478,6 +492,24 @@
                 },
                 success: function (data) {
                     loadCards(fileId); // reload list of cards after deletion
+                },
+                error: function () {
+                    alert("An error occurred. Please try again later.");
+                }
+            });
+        }
+
+        //Delete file function
+        function deleteFile(fileId) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteFile", "CardCollection")",
+                data: {
+                    id: fileId
+                },
+                success: function (data) {
+                    // Refresh the current page
+                    location.reload();
                 },
                 error: function () {
                     alert("An error occurred. Please try again later.");
