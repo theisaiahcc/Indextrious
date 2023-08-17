@@ -130,6 +130,28 @@ namespace Indextrious.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> DeleteFile(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("Card with associated Id does not exist.");
+            }
+
+            var file = await _context.CardFiles
+                .Where(f => f.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (file == null)
+            {
+                return NotFound("The associated card was not found.");
+            }
+
+            _context.Remove(file);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "File deleted successfully" });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> CreateCard(string title, string body, int fileId)
         {
             // Validation checks

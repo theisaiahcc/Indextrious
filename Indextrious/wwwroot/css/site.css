@@ -206,7 +206,14 @@ a {
 
 #edit-file-btn {
     position: absolute;
-    left: 505px;
+    left: 300px;
+    bottom: 10px;
+}
+
+#remove-file-btn {
+    position:absolute;
+    left: 389px;
+    bottom: 10px;
 }
 
 #carousel-container {
