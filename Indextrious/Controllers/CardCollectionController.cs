@@ -186,6 +186,28 @@ namespace Indextrious.Controllers
             return Ok(new { message = "Card updated successfully" });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCard(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("Card with associated Id does not exist.");
+            }
+
+            var card = await _context.Cards
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (card == null)
+            {
+                return NotFound("The associated card was not found.");
+            }
+
+            _context.Remove(card);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Card deleted successfully" });
+        }
+
         public async Task<IActionResult> GetCardsByFileId(int fileId)
         {
             var cards = await _context.Cards.Where(c => c.CardFileId == fileId).ToListAsync();
