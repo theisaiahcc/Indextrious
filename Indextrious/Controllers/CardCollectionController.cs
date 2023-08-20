@@ -70,6 +70,28 @@ namespace Indextrious.Controllers
             return Ok(new { message = "Collection updated successfully", collection });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCollection(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("Collection with associated Id does not exist.");
+            }
+
+            var collection = await _context.CardCollections
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (collection == null)
+            {
+                return NotFound("The associated collection was not found.");
+            }
+
+            _context.Remove(collection);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Collection deleted successfully" });
+        }
+
         public async Task<IActionResult> CollectionIndex(int id)
         {
             var collection = await _context.CardCollections
