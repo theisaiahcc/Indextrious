@@ -14,17 +14,19 @@
 
     @foreach(var collection in Model)
     {
-        <a href="@Url.Action("CollectionIndex", "CardCollection", new { id = collection.Id })" class="no-underline" draggable="false">
-            <div class="collection-card">@collection.Name</div>
-        </a>
+        <div class="collection-wrapper">
+            <a href="@Url.Action("CollectionIndex", "CardCollection", new { id = collection.Id })" class="no-underline" draggable="false">
+                <div class="collection-card">@collection.Name</div>
+            </a>
+            <img class="collection-delete" src="/images/close.png" alt="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-collection-id="@collection.Id">
+        </div>
     }
-    
 </div>
 
 
 
 
-<!-- The Modal -->
+<!-- Create Collection Modal -->
 <div class="modal fade bg-dark text-light" id="myModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content bg-dark text-light">
@@ -48,6 +50,78 @@
     </div>
 </div>
 
+<!--Delete Dialog-->
+
+<div class="modal fade bg-dark text-light" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header bg-dark text-light">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-dark text-light">
+                Are you sure you want to delete this collection?
+            </div>
+            <div class="modal-footer bg-dark text-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section CustomScripts {
     <script src="~/js/index.js"></script>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Delegated click event for #confirmDelete
+            $(document).on('click', '#confirmDelete', function (e) {
+                console.log("Delete Confirmed");
+
+                var collectionId = $(this).data('collection-id');
+
+                // AJAX call to delete the collection
+                $.ajax({
+                    url: "/CardCollection/DeleteCollection", // Your delete endpoint URL here
+                    type: "POST",
+                    data: { id: collectionId },
+                    success: function (response) {
+                        alert("Delete sucessful!")
+                        $('#deleteModal').modal('hide');
+                        refreshCollections();
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the collection. Please try again.');
+                    }
+                });
+            });
+
+            // When the delete icon is clicked
+            $(document).on('click', '.collection-delete', function (e) {
+                var collectionId = $(this).data('collection-id');
+                $('#confirmDelete').data('collection-id', collectionId); // set the collection ID on the confirm button
+            });
+        });
+
+
+
+        function refreshCollections() {
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetCollectionsPartial",
+                success: function (data) {
+                    $('#collection-track').html(data);
+                    $('#collection-track').attr('data-mouse-down-at', '0');
+                    $('#collection-track').attr('data-prev-percentage', '0');
+                    $('#collection-track').prepend('<div id="addCollection" class="add-btn collection-card" data-bs-toggle="modal" data-bs-target="#myModal">+</div>');
+                },
+                error: function () {
+                    alert('An error occurred while refreshing the collections. Please try again.');
+                }
+            });
+        }
+    </script>
 }
