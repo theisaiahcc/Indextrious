@@ -116,12 +116,17 @@ a {
     transform: scale(1.1);
 }
 
-.collection-wrapper:hover .collection-delete {
-    opacity: 1; /* Show it */
-    visibility: visible;
-}
+    .collection-wrapper:hover .collection-delete {
+        opacity: 1; /* Show it */
+        visibility: visible;
+    }
 
 .collection-delete:hover {
+    transform: scale(1.1);
+}
+
+.collection-wrapper:hover .collection-card {
+    background-color: #ddd;
     transform: scale(1.1);
 }
 
