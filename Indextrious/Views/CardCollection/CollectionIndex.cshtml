@@ -4,9 +4,9 @@
 
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
 
-<button id="edit-file-btn" type="button" class="btn btn-primary">Edit File</button>
+<button id="edit-file-btn" type="button" class="btn btn-primary" hidden>Edit File</button>
 
-<button id="remove-file-btn" type="button" class="btn btn-danger">Delete File</button>
+<button id="remove-file-btn" type="button" class="btn btn-danger" hidden>Delete File</button>
 
 <div id="collection-title-container">
     <img id="collection-edit" src="/images/edit.png" class="edit-button invert-icon" alt="edit">
@@ -108,6 +108,9 @@
 
                 // Add the active class to the clicked tab
                 $(this).addClass("active-file-tab");
+
+                $("#remove-file-btn").removeAttr("hidden");
+                $("#edit-file-btn").removeAttr("hidden");
 
                 // Fetch and display the index cards for the selected file
                 var fileId = $(this).data("file-id");
