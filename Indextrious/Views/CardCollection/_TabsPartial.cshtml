@@ -1,0 +1,26 @@
+﻿@model List<Indextrious.Models.CardFile>
+
+@{
+    int count = 0;
+}
+
+@foreach (var file in Model)
+{
+    var tabClass = "";
+    switch (count % 3)
+    {
+        case 0:
+            tabClass = "tab-one";
+            break;
+        case 1:
+            tabClass = "tab-two";
+            break;
+        case 2:
+            tabClass = "tab-three";
+            break;
+    }
+    count++;
+    <div class="file-tab @tabClass" data-file-id="@file.Id">
+        <div class="tab-text" title="@file.Label">@file.Label</div>
+    </div>
+}
