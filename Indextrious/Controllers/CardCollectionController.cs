@@ -271,8 +271,16 @@ namespace Indextrious.Controllers
                .Where(c => c.CardFileId == fileId)
                .ToListAsync();
 
-
             return PartialView("_FilePartial", cards);
+        }
+
+        public async Task<IActionResult> GetTabsPartial(int collectionId)
+        {
+            var files = await _context.CardFiles
+                .Where(f => f.ParentCollectionId == collectionId)
+                .ToListAsync();
+
+            return PartialView("_TabsPartial", files);
         }
     }
 }
