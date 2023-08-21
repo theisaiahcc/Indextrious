@@ -1,9 +1,5 @@
 ﻿@model CardCollection
 
-@{
-    int count = 0;
-}
-
 <button id="add-file-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add File</button>
 
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
@@ -20,39 +16,15 @@
 
 
 <div id="file-nav">
-
-    @foreach (var file in Model.CardFiles)
-    {
-        var tabClass = "";
-        switch (count % 3)
-        {
-            case 0:
-                tabClass = "tab-one";
-                break;
-            case 1:
-                tabClass = "tab-two";
-                break;
-            case 2:
-                tabClass = "tab-three";
-                break;
-        }
-        count++;
-        <div class="file-tab @tabClass" data-file-id="@file.Id">
-            <div class="tab-text" title="@file.Label">@file.Label</div>
-        </div>
-    }
-
+    <!--_TabsPartial-->
 </div>
 
 <div id="carousel-container">
-    
+    <!--_FilePartial-->
 </div>
 
 <div id="card-nav">
-
 </div>
-
-
 
 <!-- Add Modal -->
 <div class="modal fade bg-dark text-light" id="addModal" tabindex="-1">
@@ -107,7 +79,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-
+            loadFiles(@Model.Id);
             var originalTitle = $("#collection-title").val();
             var enterPressed = false;
 
@@ -120,7 +92,8 @@
                     data: $(this).serialize(),
                     success: function () {
                         // Refresh the current page
-                        location.reload();
+                        loadFiles(@Model.Id);
+                        $("#addModal").modal('hide');
                     },
                     error: function (error) {
                         alert("An error occurred.")
@@ -129,7 +102,7 @@
                 });
             });
 
-            $(".file-tab").click(function () {
+            $('#file-nav').on('click', '.file-tab', function (e) {
                 // Remove the active class from any other tabs
                 $(".file-tab").removeClass("active-file-tab");
 
@@ -377,6 +350,20 @@
                 },
                 error: function () {
                     alert('An error occurred while loading the cards. Please try again.');
+                }
+            });
+        }
+
+        function loadFiles(collectionId) {
+            $.ajax({
+                type: "GET",
+                url: "/CardCollection/GetTabsPartial",
+                data: { collectionId: collectionId },
+                success: function (data) {
+                    $("#file-nav").html(data);
+                },
+                error: function () {
+                    alert("An error occurred while loading files. Please try again.");
                 }
             });
         }
