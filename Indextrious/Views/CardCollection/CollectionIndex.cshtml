@@ -4,9 +4,9 @@
 
 <button id="create-card-btn" type="button" class="btn btn-success">Create Card</button>
 
-<button id="edit-file-btn" type="button" class="btn btn-primary" hidden>Edit File</button>
+<button id="edit-file-btn" type="button" class="btn btn-primary">Edit File</button>
 
-<button id="remove-file-btn" type="button" class="btn btn-danger" hidden>Delete File</button>
+<button id="remove-file-btn" type="button" class="btn btn-danger">Delete File</button>
 
 <div id="collection-title-container">
     <img id="collection-edit" src="/images/edit.png" class="edit-button invert-icon" alt="edit">
@@ -91,12 +91,12 @@
                     url: "@Url.Action("CreateFile", "CardCollection")",
                     data: $(this).serialize(),
                     success: function () {
-                        // Refresh the current page
+                        // Refresh list of files
                         loadFiles(@Model.Id);
                         $("#addModal").modal('hide');
                     },
                     error: function (error) {
-                        alert("An error occurred.")
+                        alert("An error occurred.");
                         console.error("An error occurred:", error);
                     }
                 });
@@ -108,9 +108,6 @@
 
                 // Add the active class to the clicked tab
                 $(this).addClass("active-file-tab");
-
-                $("#remove-file-btn").removeAttr("hidden");
-                $("#edit-file-btn").removeAttr("hidden");
 
                 // Fetch and display the index cards for the selected file
                 var fileId = $(this).data("file-id");
@@ -364,6 +361,11 @@
                 data: { collectionId: collectionId },
                 success: function (data) {
                     $("#file-nav").html(data);
+
+                    // Find the last tab and make it active
+                    $(".file-tab:last").addClass("active-file-tab");
+                    var fileId = $(".file-tab:last").data("file-id");
+                    loadCards(fileId);
                 },
                 error: function () {
                     alert("An error occurred while loading files. Please try again.");

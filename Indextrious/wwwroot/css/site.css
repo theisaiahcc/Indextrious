@@ -236,19 +236,17 @@ a {
 
 #create-card-btn {
     position: absolute;
-    left: 390px;
+    right: 300px;
 }
 
 #edit-file-btn {
     position: absolute;
-    left: 300px;
-    bottom: 10px;
+    left: 390px;
 }
 
 #remove-file-btn {
     position:absolute;
-    left: 389px;
-    bottom: 10px;
+    left: 480px;
 }
 
 #carousel-container {
