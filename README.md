@@ -8,6 +8,7 @@
 
 - **Manage Your Collections**: Create, edit, and delete collections as per your needs.
 - **Interactive UI**: Seamless experience with intuitive controls, such as inline editing of collection names.
+- **Take Notes**: Create and edit index cards to organize your thoughts and take notes.
 
 ## Installation
 
