@@ -11,16 +11,7 @@
 
 <div id="collection-track" data-mouse-down-at="0" data-prev-percentage="0">
     <div id="addCollection" class="add-btn collection-card" data-bs-toggle="modal" data-bs-target="#myModal">+</div> <!-- Open the create modal -->
-
-    @foreach(var collection in Model)
-    {
-        <div class="collection-wrapper">
-            <a href="@Url.Action("CollectionIndex", "CardCollection", new { id = collection.Id })" class="no-underline" draggable="false">
-                <div class="collection-card">@collection.Name</div>
-            </a>
-            <img class="collection-delete" src="/images/close.png" alt="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-collection-id="@collection.Id">
-        </div>
-    }
+    <!-- _CollectionsPartial -->
 </div>
 
 
@@ -39,6 +30,10 @@
                     <div class="form-group">
                         <label for="collection-name" class="col-form-label">Name your collection:</label>
                         <input type="text" class="form-control bg-dark text-light" id="collection-name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="collectionColor">Choose Collection Color:</label>
+                        <input class="form-control jscolor" id="collectionColor" name="color">
                     </div>
                 </form>
             </div>
@@ -77,6 +72,8 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            refreshCollections();
+
             // Delegated click event for #confirmDelete
             $(document).on('click', '#confirmDelete', function (e) {
                 console.log("Delete Confirmed");

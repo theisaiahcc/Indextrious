@@ -34,6 +34,7 @@ namespace Indextrious.Controllers
             return View(collections);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetCollectionsPartial()
         {
             var currentUser = await _userManager.GetUserAsync(User);

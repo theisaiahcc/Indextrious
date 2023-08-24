@@ -14,6 +14,10 @@
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// Hex code representing color of collection div
+        /// </summary>
+        public string Color { get; set; }
+        /// <summary>
         /// Reference to Owner of CardCollection
         /// </summary>
         public ApplicationUser Owner { get; set; }

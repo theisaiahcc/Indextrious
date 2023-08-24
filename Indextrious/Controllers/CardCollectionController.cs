@@ -3,6 +3,7 @@ using Indextrious.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace Indextrious.Controllers
 {
@@ -24,11 +25,18 @@ namespace Indextrious.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string name)
+        public async Task<IActionResult> Create(string name, string color)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest("Collection name cannot be empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(color) || !Regex.IsMatch(color, "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) //ChatGPT generated this to check if the hex code is in the proper format
+                                                                                                                 // So, the entire expression ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ matches strings that: Start with "#",
+                                                                                                             // Followed by either: 6 hexadecimal characters(e.g., #1A2B3C), OR 3 hexadecimal characters(e.g., #ABC).
+            {
+                return BadRequest("Invalid color format.");
             }
 
             // Get the current user
@@ -37,6 +45,7 @@ namespace Indextrious.Controllers
             var collection = new CardCollection
             {
                 Name = name,
+                Color = color,  // Set the color here
                 Owner = user
             };
 
@@ -45,6 +54,7 @@ namespace Indextrious.Controllers
 
             return Ok();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateCollection(int id, string name)
