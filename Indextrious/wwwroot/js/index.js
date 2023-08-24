@@ -29,10 +29,13 @@ window.onmousemove = e => {
 }
 
 
-// Creates a new collection
 $(document).ready(function () {
     $('#create-collection-form').on('submit', function (e) {
         e.preventDefault();  // prevent the form from doing a full postback
+
+        if(window.jscolor) {
+            jscolor.trigger('input change'); // Updates the color picker input value
+        }
 
         $.ajax({
             type: "POST",
@@ -41,6 +44,7 @@ $(document).ready(function () {
             success: function (data) {
                 refreshCollections();
                 $('#collection-name').val('');
+                $('#collectionColor').val(''); // Clear the color picker value
                 $('#myModal').modal('hide');
             },
             error: function () {
@@ -50,6 +54,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 // Refreshes the collections on the page
 function refreshCollections() {
