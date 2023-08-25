@@ -94,14 +94,11 @@ a {
     transition: all .3s ease;
 }
 
-.collection-delete {
+.collection-update {
     cursor: pointer;
     margin-top: 30px;
-    width: 25px;
-    background-color: red;
+    width: 30px;
     mix-blend-mode: multiply;
-    border-radius: 6px;
-    border: 1px solid black;
     opacity: 0; /* Initial state - Fully transparent */
     visibility: hidden; /* Hide it */
     transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition effects for opacity and visibility */
@@ -116,13 +113,14 @@ a {
     transform: scale(1.1);
 }
 
-    .collection-wrapper:hover .collection-delete {
-        opacity: 1; /* Show it */
-        visibility: visible;
+    .collection-wrapper:hover .collection-update {
+    opacity: 1; /* Show it */
+    visibility: visible;
     }
 
-.collection-delete:hover {
+.collection-update:hover {
     transform: scale(1.1);
+    filter: invert(1);
 }
 
 .collection-wrapper:hover .collection-card {
@@ -130,9 +128,12 @@ a {
     transform: scale(1.1);
 }
 
+.custom-modal-footer .btn-danger {
+    float: left;
+    margin-right: auto; /* push all subsequent items to the right */
+}
 
 /*CollectionIndex*/
-
 #file-nav {
     position: fixed;
     bottom: 0;
