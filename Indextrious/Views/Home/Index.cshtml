@@ -17,29 +17,31 @@
 
 
 
-<!-- Create Collection Modal -->
+<!-- Create/Update Collection Modal -->
 <div class="modal fade bg-dark text-light" id="myModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content bg-dark text-light">
             <div class="modal-header">
-                <h5 class="modal-title">Create a new collection</h5>
+                <h5 id="my-modal-title" class="modal-title">Create a new collection</h5>
                 <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="create-collection-form" action="@Url.Action("Create", "CardCollection")">
+                <form id="create-collection-form" action="@Url.Action("CreateOrUpdate", "CardCollection")">
                     <div class="form-group">
                         <label for="collection-name" class="col-form-label">Name your collection:</label>
                         <input type="text" class="form-control bg-dark text-light" id="collection-name" name="name">
                     </div>
                     <div class="form-group">
                         <label for="collectionColor">Choose Collection Color:</label>
-                        <input class="form-control jscolor" id="collectionColor" name="color">
+                        <input class="form-control" id="collectionColor" name="color" data-jscolor="">
                     </div>
+                    <input type="hidden" id="collection-id" name="id" value="0" /> <!-- Default value is 0 -->
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer custom-modal-footer">
+                <button type="button" class="btn btn-danger text-light float-left" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                 <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary text-light" form="create-collection-form">Create</button>
+                <button id="create-collection-btn" type="submit" class="btn btn-primary text-light" form="create-collection-form">Create</button>
             </div>
         </div>
     </div>
@@ -76,9 +78,8 @@
 
             // Delegated click event for #confirmDelete
             $(document).on('click', '#confirmDelete', function (e) {
-                console.log("Delete Confirmed");
-
-                var collectionId = $(this).data('collection-id');
+                // Retrieve the collection ID directly from the delete modal
+                var collectionId = $('#deleteModal').data('collection-id');
 
                 // AJAX call to delete the collection
                 $.ajax({
@@ -87,6 +88,7 @@
                     data: { id: collectionId },
                     success: function (response) {
                         $('#deleteModal').modal('hide');
+                        $('#myModal').modal('hide');
                         refreshCollections();
                     },
                     error: function () {
@@ -95,14 +97,43 @@
                 });
             });
 
-            // When the delete icon is clicked
-            $(document).on('click', '.collection-delete', function (e) {
+            $(document).on('click', '.collection-update', function (e) {
                 var collectionId = $(this).data('collection-id');
-                $('#confirmDelete').data('collection-id', collectionId); // set the collection ID on the confirm button
+                var collectionName = $(this).data('collection-name');
+                var collectionColor = $(this).data('collection-color');
+                $('#collection-id').val(collectionId);
+                
+                // Store the collection ID in the delete modal
+                $('#deleteModal').data('collection-id', collectionId);
+
+                // Change button to update
+                $("#create-collection-btn").text("Update");
+                // Populate the modal fields
+                $('#collection-name').val(collectionName);
+                $('#collectionColor').val(collectionColor).change(); // .change() is to trigger any listeners you might have
+
+                var jscolorInstance = $('#collectionColor')[0].jscolor;
+                jscolorInstance.fromString(collectionColor);
+
+                $("#create-collection-btn").text("Update");
+                $('#my-modal-title').text("Update existing collection");
             });
+
+            $('#myModal').on('show.bs.modal', function (e) {
+                
+            });
+
+            $(document).on('click', '#addCollection', function (e) {
+                var jscolorInstance = $('#collectionColor')[0].jscolor;
+                jscolorInstance.fromString("#FFFFFF");
+                $('#collection-id').val('0');  // Set the hidden input's value to 0
+                $("#create-collection-btn").text("Create");
+                $('#collection-name').val("");
+                $('#my-modal-title').text("Create a new collection");
+            });
+
+            
         });
-
-
 
         function refreshCollections() {
             $.ajax({

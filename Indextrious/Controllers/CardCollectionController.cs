@@ -25,16 +25,14 @@ namespace Indextrious.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string name, string color)
+        public async Task<IActionResult> CreateOrUpdate(int? id, string name, string color)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest("Collection name cannot be empty.");
             }
 
-            if (string.IsNullOrWhiteSpace(color) || !Regex.IsMatch(color, "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) //ChatGPT generated this to check if the hex code is in the proper format
-                                                                                                                 // So, the entire expression ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ matches strings that: Start with "#",
-                                                                                                             // Followed by either: 6 hexadecimal characters(e.g., #1A2B3C), OR 3 hexadecimal characters(e.g., #ABC).
+            if (string.IsNullOrWhiteSpace(color) || !Regex.IsMatch(color, "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
             {
                 return BadRequest("Invalid color format.");
             }
@@ -42,18 +40,34 @@ namespace Indextrious.Controllers
             // Get the current user
             var user = await _userManager.GetUserAsync(User);
 
-            var collection = new CardCollection
+            if (id.HasValue && id > 0) // Update existing collection
             {
-                Name = name,
-                Color = color,  // Set the color here
-                Owner = user
-            };
+                var existingCollection = await _context.CardCollections.FindAsync(id);
+                if (existingCollection == null)
+                {
+                    return NotFound("Collection not found.");
+                }
 
-            _context.Add(collection);
+                existingCollection.Name = name;
+                existingCollection.Color = color;
+            }
+            else // Create new collection
+            {
+                var collection = new CardCollection
+                {
+                    Name = name,
+                    Color = color,
+                    Owner = user
+                };
+
+                _context.Add(collection);
+            }
+
             await _context.SaveChangesAsync();
 
             return Ok();
         }
+
 
 
         [HttpPost]
