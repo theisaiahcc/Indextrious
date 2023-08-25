@@ -96,12 +96,9 @@ a {
 
 .collection-update {
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 60px;
     width: 30px;
-    mix-blend-mode: multiply;
     opacity: 0; /* Initial state - Fully transparent */
-    visibility: hidden; /* Hide it */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition effects for opacity and visibility */
 }
 
 .no-underline {
@@ -113,19 +110,13 @@ a {
     transform: scale(1.1);
 }
 
-    .collection-wrapper:hover .collection-update {
-    opacity: 1; /* Show it */
-    visibility: visible;
-    }
+.collection-wrapper:hover .collection-update {
+    opacity: 1;
+}
 
 .collection-update:hover {
     transform: scale(1.1);
     filter: invert(1);
-}
-
-.collection-wrapper:hover .collection-card {
-    background-color: #ddd;
-    transform: scale(1.1);
 }
 
 .custom-modal-footer .btn-danger {
