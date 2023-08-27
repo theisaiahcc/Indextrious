@@ -103,6 +103,7 @@
             var originalTitle = $("#collection-title").val();
             var enterPressed = false;
 
+            // Create File
             $("#create-file-form").submit(function (event) {
                 event.preventDefault(); // Prevent form from submitting the traditional way
 
@@ -122,6 +123,7 @@
                 });
             });
 
+            // File Tab click event
             $('#file-nav').on('click', '.file-tab', function (e) {
                 // Remove the active class from any other tabs
                 $(".file-tab").removeClass("active-file-tab");
@@ -134,6 +136,7 @@
                 loadCards(fileId);
             });
 
+            // Create Card
             $("#create-card-btn").click(function () {
                 // Check if there's an active file tab
                 var activeTab = $(".file-tab.active-file-tab");
@@ -165,6 +168,7 @@
                 $('#carousel .carousel-item:last').addClass('active');
             });
 
+            // Save Card
             $(document).on('click', '.save-button', function () {
                 var cardElement = $(this).closest('.index-card');
                 var cardTitle = cardElement.find('.card-title').val();
@@ -190,6 +194,7 @@
                 }
             });
 
+            // Card Navigation Item click event
             $(document).on('click', '.card-nav-item', function () {
                 var cardIndex = $(this).data('index');  // Retrieve the associated card carousel index
 
@@ -206,6 +211,7 @@
                 $("#collection-save").show();
             });
 
+            // Enter key also saves collection title
             $("#collection-title").on("keypress", function (e) {
                 if (e.which == 13) { // Check if the key is the Enter key
                     e.preventDefault(); // Prevent default action
@@ -215,6 +221,7 @@
                 }
             });
 
+            // Collection Save click event
             $(document).on('mousedown', '#collection-save', function () {
                 enterPressed = true;
                 originalTitle = $('#collection-title').val();
@@ -245,8 +252,9 @@
                 }
 
                 // Populate the edit input with the active tab's name
-                var activeTabName = $(".file-tab.active").text();
+                var activeTabName = $(".file-tab.active-file-tab").text().trim();
                 $("#edit-file-name").val(activeTabName);
+                $("#edit-file-name").focus();
 
                 // Show the edit modal
                 $("#editModal").modal('show');
@@ -254,36 +262,11 @@
 
             // Save file name changes
             $("#save-changes-btn").click(function () {
-                var activeTab = $(".file-tab.active-file-tab");
-                var activeTabId = getActiveTabId();
-
-                if (!activeTabId) {
-                    alert("Please select a file to edit.");
-                    $("#editModal").modal('hide');
-                    return;
-                }
-
-                var updatedFileName = $("#edit-file-name").val(); // Get the new name from the modal
-
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("UpdateFile", "CardCollection")",
-                    data: {
-                        id: activeTabId,
-                        name: updatedFileName
-                    },
-                    success: function (response) {
-                        $("#editModal").modal('hide');
-                        activeTab.text(updatedFileName); // Updates the tab's name
-                        activeTab.css("overflow", "hidden");
-                        activeTab.css("text-overflow", "ellipsis");
-                    },
-                    error: function (error) {
-                        alert("There was an error updating the file.");
-                    }
-                });
+                e.preventDefault();
+                updateFile();
             });
 
+            // Delete Card
             $(document).on('click', '.delete-icon', function () {
                 var card = $('#carousel .carousel-item.active');
                 var cardId = card.data('id');  
@@ -302,8 +285,48 @@
                 }
             });
 
+            $("#edit-file-form").submit(function (e) {
+                e.preventDefault(); // prevent the default submit action
+                updateFile();
+            });
+
+            $("#editModal").on('shown.bs.modal', function () {
+                $("#edit-file-name").focus();
+            });
+
             initializeCarousel(); // Might not be necessary
         });
+
+        function updateFile() {
+            var activeTab = $(".file-tab.active-file-tab");
+            var activeTabId = getActiveTabId();
+
+            if (!activeTabId) {
+                alert("Please select a file to edit.");
+                $("#editModal").modal('hide');
+                return;
+            }
+
+            var updatedFileName = $("#edit-file-name").val(); // Get the new name from the modal
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateFile", "CardCollection")",
+                data: {
+                    id: activeTabId,
+                    name: updatedFileName
+                },
+                success: function (response) {
+                    $("#editModal").modal('hide');
+                    activeTab.text(updatedFileName); // Updates the tab's name
+                    activeTab.css("overflow", "hidden");
+                    activeTab.css("text-overflow", "ellipsis");
+                },
+                error: function (error) {
+                    alert("There was an error updating the file.");
+                }
+            });
+        }
 
         // Update card
         function performUpdate() {
@@ -311,6 +334,7 @@
             $("#collection-save").hide();
             $("#collection-edit").show();
             $("#collection-title").prop("readonly", true);
+            enterPressed = false;
         }
 
         function updateCollectionName(collectionId) {
