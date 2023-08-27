@@ -242,7 +242,7 @@
                 $(this).val(value);
             });
 
-            // Edit Modal trigger
+            // Edit File Modal trigger
             $("#edit-file-btn").click(function () {
                 var activeTabId = getActiveTabId();
 
@@ -262,7 +262,6 @@
 
             // Save file name changes
             $("#save-changes-btn").click(function () {
-                e.preventDefault();
                 updateFile();
             });
 
@@ -321,6 +320,7 @@
                     activeTab.text(updatedFileName); // Updates the tab's name
                     activeTab.css("overflow", "hidden");
                     activeTab.css("text-overflow", "ellipsis");
+                    activeTab.attr("title", updatedFileName);
                 },
                 error: function (error) {
                     alert("There was an error updating the file.");
