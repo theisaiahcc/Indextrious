@@ -473,3 +473,7 @@ textarea:disabled {
     background-color: transparent;
     color: black;
 }
+
+.blank-save {
+    right: 40px;
+}

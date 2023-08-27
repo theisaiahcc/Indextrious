@@ -157,8 +157,8 @@
                             <div class="carousel-item blank-card">
                                 <div class="index-card">
                                     <input type="text" class="card-title" placeholder="Card Title">
-                                    <img src="/images/close.png" class="close-button" alt="close">
-                                    <img src="/images/save.png" class="save-button" alt="save">
+                                    <img src="/images/close.png" class="close-button blank-close" alt="close">
+                                    <img src="/images/save.png" class=" save-button" alt="save">
                                     <textarea class="card-body" placeholder="Card Body"></textarea>
                                 </div>
                             </div>`;
@@ -451,6 +451,10 @@
             $(".card-close").click(function () {
                 console.log("Card close btn triggered");
                 cancelEditCard(this);
+            });
+
+            $('#carousel').on('click', '.blank-close', function () {
+                loadCards(getActiveTabId);
             });
         }
 
