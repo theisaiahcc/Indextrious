@@ -54,23 +54,3 @@ $(document).ready(function () {
         });
     });
 });
-
-
-// Refreshes the collections on the page
-function refreshCollections() {
-    $.ajax({
-        type: "GET",
-        url: "/Home/GetCollectionsPartial",
-        success: function (data) {
-            $('#collection-track').html(data); // inserts partial view (data) into the collection track
-            // Reset navigation attributes
-            $('#collection-track').attr('data-mouse-down-at', '0');
-            $('#collection-track').attr('data-prev-percentage', '0');
-            $('#collection-track').prepend('<div id="addCollection" class="add-btn collection-card" data-bs-toggle="modal" data-bs-target="#myModal">+</div>');
-        },
-        error: function () {
-            // show an error message
-            alert('An error occurred while refreshing the collections. Please try again.');
-        }
-    });
-}
