@@ -337,6 +337,21 @@
             enterPressed = false;
         }
 
+        function goToLastCarouselItem() {
+            // Get the carousel instance
+            let carouselElement = document.querySelector('#carousel');
+            let carousel = new bootstrap.Carousel(carouselElement);
+
+            // Get the total number of items in the carousel
+            let totalItems = carouselElement.querySelectorAll('.carousel-item').length;
+            console.log('Total Carousel Items:', totalItems);
+
+            // Navigate to the last item
+            setTimeout(() => {
+                carousel.to(totalItems - 1);
+            }, 500);  // 500 milliseconds delay
+        }
+
         function updateCollectionName(collectionId) {
             // Get the updated collection name
             var updatedName = $("#collection-title").val();
@@ -369,7 +384,9 @@
                     fileId: fileId
                 }, // Pass card information to server
                 success: function (data) {
-                    loadCards(fileId)
+                    console.log("Card created.");
+                    loadCards(fileId, goToLastCarouselItem);
+                    setNavActiveCard();
                 },
                 error: function (xhr, status, error) {
                     console.error("Error creating card:", xhr.responseText);
@@ -377,7 +394,7 @@
             });
         }
 
-        function loadCards(fileId) {
+        function loadCards(fileId, callback) {
             $.ajax({
                 type: "GET",
                 url: "/CardCollection/GetFilePartial",
@@ -393,6 +410,8 @@
                     });
                     populateTitleList(titles);
                     setNavActiveCard();
+
+                    if (callback) callback();
                 },
                 error: function () {
                     alert('An error occurred while loading the cards. Please try again.');
