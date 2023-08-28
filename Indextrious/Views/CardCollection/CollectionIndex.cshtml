@@ -499,6 +499,10 @@
         function editCard(clickedElement) {
             let card = $(clickedElement).closest('.index-card');
 
+            // Store the current values
+            card.find(".card-title").data('original-value', card.find(".card-title").val());
+            card.find(".card-body").data('original-value', card.find(".card-body").val());
+
             card.find(".card-edit").hide();
             card.find(".card-save").removeAttr("hidden");
             card.find(".card-close").removeAttr("hidden");
@@ -519,6 +523,10 @@
             card.find(".card-title").prop("disabled", true);
             card.find(".card-body").prop("disabled", true);
             card.find(".card-title").css("cursor", "default");
+
+            // Retrieve and set the original values
+            card.find(".card-title").val(card.find(".card-title").data('original-value'));
+            card.find(".card-body").val(card.find(".card-body").data('original-value'));
         }
 
         // Update card to reflect changes
