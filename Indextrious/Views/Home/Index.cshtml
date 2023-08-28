@@ -76,6 +76,12 @@
         $(document).ready(function () {
             refreshCollections();
 
+            $('#myModal').on('hidden.bs.modal', function (e) {
+                // Reset navigation attributes
+                $('#collection-track').attr('data-mouse-down-at', '0');
+                $('#collection-track').attr('data-prev-percentage', '0');
+            });
+
             // Delegated click event for #confirmDelete
             $(document).on('click', '#confirmDelete', function (e) {
                 // Retrieve the collection ID directly from the delete modal
