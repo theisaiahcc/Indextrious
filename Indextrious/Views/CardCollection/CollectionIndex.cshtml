@@ -317,10 +317,11 @@
                 },
                 success: function (response) {
                     $("#editModal").modal('hide');
-                    activeTab.text(updatedFileName); // Updates the tab's name
-                    activeTab.css("overflow", "hidden");
-                    activeTab.css("text-overflow", "ellipsis");
-                    activeTab.attr("title", updatedFileName);
+                    var activeTabText = activeTab.find(".tab-text");
+                    activeTabText.text(updatedFileName); // Updates the tab's name
+                    activeTabText.css("overflow", "hidden");
+                    activeTabText.css("text-overflow", "ellipsis");
+                    activeTabText.attr("title", updatedFileName);
                 },
                 error: function (error) {
                     alert("There was an error updating the file.");
