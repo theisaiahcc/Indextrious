@@ -39,7 +39,7 @@
                 </form>
             </div>
             <div class="modal-footer custom-modal-footer">
-                <button type="button" class="btn btn-danger text-light float-left" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                <button id="delete-collection-btn" type="button" class="btn btn-danger text-light float-left" data-bs-toggle="modal" data-bs-target="#deleteModal" hidden>Delete</button>
                 <button type="button" class="btn btn-secondary text-light" data-bs-dismiss="modal">Cancel</button>
                 <button id="create-collection-btn" type="submit" class="btn btn-primary text-light" form="create-collection-form">Create</button>
             </div>
@@ -117,10 +117,7 @@
 
                 $("#create-collection-btn").text("Update");
                 $('#my-modal-title').text("Update existing collection");
-            });
-
-            $('#myModal').on('show.bs.modal', function (e) {
-                
+                $("#delete-collection-btn").removeAttr("hidden");
             });
 
             $(document).on('click', '#addCollection', function (e) {
@@ -130,9 +127,8 @@
                 $("#create-collection-btn").text("Create");
                 $('#collection-name').val("");
                 $('#my-modal-title').text("Create a new collection");
+                $("#delete-collection-btn").attr("hidden", true);
             });
-
-            
         });
 
         // Refreshes the collections on the page
